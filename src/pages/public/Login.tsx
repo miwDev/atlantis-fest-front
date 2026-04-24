@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import api from '../../config/api'; 
 import logoClaro from '../../assets/logo-light.svg';
-import loginBG from '../../assets/loginBG.png'; 
+import loginBG from '../../assets/LoginBG.png'; 
 
 export const Login = () => {
   const [username, setUsername] = useState('');
@@ -123,13 +123,22 @@ export const Login = () => {
                 {isLoading ? 'Accediendo...' : 'Acceder'}
               </button>
 
-              <div className="text-center">
+              <div className="text-center flex flex-col items-center gap-6">
                 <a 
                   href="#To be implemented" 
-                  className="text-[10px] font-bold text-atlantis-secondary uppercase tracking-widest hover:text-atlantis-primary transition-colors"
+                  className="text-[10px] font-bold text-atlantis-secondary uppercase tracking-widest hover:text-atlantis-bg-main transition-colors"
                 >
                   ¿Has olvidado tu contraseña?
                 </a>
+
+                <button 
+                  onClick={() => navigate('/')}
+                  type="button"
+                  className="relative group inline-flex items-center gap-2 text-[10px] font-bold text-atlantis-secondary uppercase tracking-widest hover:text-atlantis-bg-main transition-colors"
+                >
+                  <span>←</span> Volver a la portada
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-atlantis-bg-main transition-all duration-300 group-hover:w-full"></span>
+                </button>
               </div>
             </div>
           </form>
