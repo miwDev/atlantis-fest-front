@@ -1,91 +1,140 @@
-import { useState, type SubmitEvent } from 'react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import api from '../../config/api';
 import { useAuthStore } from '../../store/authStore';
+import api from '../../config/api'; 
+import logoClaro from '../../assets/logo-light.svg';
+import loginBG from '../../assets/loginBG.png'; 
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const [errorMsg, setErrorMsg] = useState('');
+  
+  const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
-  const { login } = useAuthStore();
 
-
-  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
-    
-    setError('');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
+    setErrorMsg(''); 
 
     try {
-      const response = await api.post('/authorizations/login', {
-        username: username,
-        password: password
-      });
+      const response = await api.post('/authorizations/login', { username, password });
+      const data = response.data;
 
-      const token = response.data.token;
-      
-      const user = { id: '1', name: 'Admin', role: 'ADMIN' as const };
+      localStorage.setItem('auth_token', data.token);
 
-      login(user, token);
+      const realUser = {
+        id: String(data.id), 
+        name: data.username,
+        role: data.role.replace('ROLE_', '') as "CLIENT" | "ARTIST" | "STAFF" | "ADMIN", 
+        email: data.email
+      };
 
+      await login(realUser, data.token); 
       navigate('/admin');
-
-    } catch{
-      setError('Credenciales incorrectas. Revisa tu usuario y contraseña.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Fallo:", error.message);
+      }
+      setErrorMsg('Credenciales incorrectas.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-xl">
-        <h2 className="text-3xl font-bold text-white mb-6 text-center">
-          Acceso <span className="text-teal-400">Atlantis</span>
-        </h2>
+    <div className="min-h-screen w-full flex overflow-hidden font-plex bg-atlantis-white">
+      
+      {/* SECCIÓN IZQUIERDA: IMAGEN */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="hidden lg:block lg:w-[70%] relative overflow-hidden"
+      >
+        <img 
+          src={loginBG} 
+          alt="Atlantis Experience" 
+          className="absolute inset-0 w-full h-full object-cover grayscale opacity-90"
+        />
+        <div className="absolute inset-0 bg-atlantis-bg-alt/10 mix-blend-multiply" />
+      </motion.div>
 
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg mb-6 text-center">
-            {error}
+      {/* SECCIÓN DERECHA: LOGIN CON VARIABLES OFICIALES */}
+      <motion.div 
+        initial={{ x: 20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="w-full lg:w-[30%] flex flex-col justify-center p-8 md:p-16 bg-atlantis-white z-10 border-l border-atlantis-secondary/20"
+      >
+        <div className="max-w-sm mx-auto w-full space-y-12">
+          
+          <div className="space-y-6">
+            <img src={logoClaro} alt="Logo" className="h-12 w-12" />
+            <div className="space-y-1">
+              <h2 className="font-syne text-h4 font-bold uppercase tracking-tighter text-atlantis-bg-main">
+                Identificación
+              </h2>
+            </div>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm text-neutral-300 mb-2">Usuario</label>
-            <input
-              type="text"
-              required
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:border-teal-500 focus:outline-none"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-atlantis-secondary">
+                Identificador
+              </label>
+              <input 
+                type="text" 
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full border-b border-atlantis-secondary/30 py-3 font-medium text-atlantis-bg-main focus:border-atlantis-primary outline-none transition-colors rounded-none bg-transparent"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm text-neutral-300 mb-2">Contraseña</label>
-            <input
-              type="password"
-              required
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:border-teal-500 focus:outline-none"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-atlantis-secondary">
+                Clave
+              </label>
+              <input 
+                type="password" 
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border-b border-atlantis-secondary/30 py-3 font-medium text-atlantis-bg-main focus:border-atlantis-primary outline-none transition-colors rounded-none bg-transparent"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-teal-500 hover:bg-teal-400 text-neutral-950 font-bold py-3 rounded-lg mt-4 disabled:opacity-50"
-          >
-            {isLoading ? 'Conectando...' : 'Entrar'}
-          </button>
+            {errorMsg && (
+              <p className="text-[10px] font-bold text-atlantis-error uppercase tracking-widest">
+                {errorMsg}
+              </p>
+            )}
 
-        </form>
-      </div>
+            <div className="pt-6 space-y-6">
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-atlantis-bg-main text-atlantis-white font-bold p-4 uppercase tracking-[0.2em] hover:bg-atlantis-primary transition-colors duration-300 rounded-none"
+              >
+                {isLoading ? 'Accediendo...' : 'Acceder'}
+              </button>
+
+              <div className="text-center">
+                <a 
+                  href="#To be implemented" 
+                  className="text-[10px] font-bold text-atlantis-secondary uppercase tracking-widest hover:text-atlantis-primary transition-colors"
+                >
+                  ¿Has olvidado tu contraseña?
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </motion.div>
     </div>
   );
 };

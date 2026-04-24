@@ -1,11 +1,37 @@
+@import "tailwindcss";
+
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* Colores */
+  --color-atlantis-primary: #002FA7;
+  --color-atlantis-secondary: #5A6070;
+  --color-atlantis-white: #E6E9F0;
+  --color-atlantis-bg-main: #161821;
+  --color-atlantis-bg-alt: #0A0B10;
+  --color-atlantis-success: #1F8A4C;
+  --color-atlantis-error: #D90429;
+  --color-atlantis-warning: #E3B505;
+  --color-atlantis-info: #8ECAE6;
 
-@layer base {
-  body {
-    @apply bg-atlantis-bg-main text-atlantis-white font-plex antialiased;
-  }
+  /* Tipografías */
+  --font-syne: "Syne", sans-serif;
+  --font-plex: "IBM Plex Sans", sans-serif;
+
+  /* Tamaños base */
+  --text-h1: 5rem;
+  --text-h2: 3.5rem;
+  --text-h3: 2.5rem;
+  --text-h4: 1.75rem;
+  --text-h5: 1.25rem;
+  --text-h6: 1rem;
+  --text-label: 0.875rem;
+}
+
+body {
+  background-color: var(--color-atlantis-white);
+  color: var(--color-atlantis-bg-main);        
+  font-family: var(--font-plex);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
