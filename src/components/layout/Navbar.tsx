@@ -1,16 +1,30 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useUIStore } from '../../store/uiStore';
 import logoClaro from '../../assets/logo-light.svg';
 import logoOscuro from '../../assets/logo-dark.svg';
 
 export const Navbar = () => {
-  const { isNavbarOpen, isSidebarOpen, toggleNavbar, toggleSidebar } = useUIStore();
+  const { isNavbarOpen, isSidebarOpen, toggleNavbar, toggleSidebar, closeAll } = useUIStore();
   
-  // Traemos el logout del Zustand y el navigate
-  const logout = useAuthStore((state) => state.logout);
+  // Traemos el estado de autenticación y funciones del Zustand
+  const { user, isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  // Opciones dinámicas según el rol
+  let menuOptions: string[] = [];
+  if (!isAuthenticated) {
+    menuOptions = ['Tickets', 'Lineup', 'Recinto'];
+  } else if (user?.role === 'ADMIN') {
+    menuOptions = []; // Por definir más adelante
+  } else if (user?.role === 'CLIENT') {
+    menuOptions = []; // Por definir más adelante
+  } else {
+    menuOptions = [];
+  }
 
   const handleLogout = () => {
     logout();
@@ -32,17 +46,19 @@ export const Navbar = () => {
             className="h-16 w-16 md:h-20 md:w-20 object-contain transition-opacity duration-500"
           />
 
-          {/* Hamburger */}
-          <button
-            onClick={toggleSidebar}
-            className={`flex flex-col gap-1.5 group transition-all duration-500 overflow-hidden ${
-              isNavbarOpen ? 'w-0 opacity-0 p-0 pointer-events-none' : 'w-10 opacity-100 p-2 pointer-events-auto'
-            }`}
-          >
-            <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
-            <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
-            <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
-          </button>
+          {/* Hamburger (Solo en Admin) */}
+          {isAdmin && (
+            <button
+              onClick={toggleSidebar}
+              className={`flex flex-col gap-1.5 group transition-all duration-500 overflow-hidden ${
+                isNavbarOpen ? 'w-0 opacity-0 p-0 pointer-events-none' : 'w-10 opacity-100 p-2 pointer-events-auto'
+              }`}
+            >
+              <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
+              <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
+              <div className={`w-6 h-0.5 transition-colors duration-500 ${isDarkBg ? 'bg-atlantis-white' : 'bg-atlantis-bg-main'} group-hover:bg-atlantis-primary`} />
+            </button>
+          )}
         </div>
 
         {/* DERECHA: + MENÚ */}
@@ -80,34 +96,51 @@ export const Navbar = () => {
             isNavbarOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
         >
-          {['Archivo', 'Logística', 'Soporte'].map((item, index) => (
+          {menuOptions.map((item, index) => (
             <button
               key={index}
-              className="font-syne text-h4 font-bold text-atlantis-white hover:opacity-60 transition-opacity duration-300"
+              onClick={() => {
+                // Aquí iría la navegación a la sección correspondiente
+                toggleNavbar();
+              }}
+              className="font-syne text-h4 font-bold text-atlantis-white hover:opacity-60 transition-opacity duration-300 uppercase tracking-tighter"
             >
               {item}
             </button>
           ))}
         </div>
 
-        {/* CERRAR SESIÓN (Abajo a la derecha) */}
+        {/* BOTÓN INFERIOR DERECHO (Cerrar Sesión o Acceder) */}
         <div 
           className={`absolute bottom-6 right-6 md:bottom-10 md:right-10 transition-all duration-700 delay-300 ${
             isNavbarOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <button
-            onClick={handleLogout}
-            className="font-syne text-h6 md:text-h6 font-bold text-atlantis-white hover:text-atlantis-error transition-colors duration-300"
-          >
-            Cerrar Sesión
-          </button>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="font-syne text-h6 md:text-h6 font-bold text-atlantis-white hover:text-atlantis-error transition-colors duration-300 uppercase tracking-tighter"
+            >
+              Cerrar Sesión
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                toggleNavbar();
+                navigate('/login');
+              }}
+              className="font-syne text-h6 md:text-h6 font-bold text-atlantis-white hover:text-atlantis-bg-main transition-colors duration-300 uppercase tracking-tighter"
+            >
+              Acceder
+            </button>
+          )}
         </div>
       </div>
 
       <div 
-        className={`fixed inset-0 bg-atlantis-bg-alt/30 backdrop-blur-sm transition-opacity duration-500 z-[90] pointer-events-none ${
-          isNavbarOpen ? 'opacity-100' : 'opacity-0'
+        onClick={closeAll}
+        className={`fixed inset-0 bg-atlantis-bg-alt/30 backdrop-blur-sm transition-opacity duration-500 z-[90] ${
+          isNavbarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
     </>

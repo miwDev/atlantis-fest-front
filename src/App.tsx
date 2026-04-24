@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { Login } from './pages/public/Login';
+import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
 
 //const Home = () => <div className="min-h-screen bg-neutral-950 p-10 text-teal-400 text-2xl font-bold">Portada Pública (Landing Page)</div>;
@@ -31,6 +32,9 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route element={<MainLayout />}>
+          
+          {/* Landing Page Pública bajo el MainLayout */}
+          <Route path="/" element={<Landing />} />
           
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="/admin" element={<AdminDashboard />} />
