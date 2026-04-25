@@ -10,7 +10,7 @@ export const AdminDashboard = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-12"
+      className="space-y-12 container mx-auto max-w-7xl px-8 md:px-24 py-12"
     >
       <header className="border-b border-atlantis-secondary/20 pb-6">
         <span className="font-plex text-[10px] text-atlantis-secondary uppercase tracking-[0.3em] font-black">

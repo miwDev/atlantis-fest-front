@@ -11,7 +11,7 @@ export const MainLayout = () => {
     <div className="min-h-screen bg-atlantis-white flex flex-col">
       {isAdmin && <Sidebar />}
       <Navbar />
-      <main className="container mx-auto max-w-7xl px-12 md:px-24 pt-40 pb-24 flex-grow">
+      <main className="w-full pt-24 md:pt-32 flex-grow flex flex-col">
         <Outlet />
       </main>
       <Footer />
