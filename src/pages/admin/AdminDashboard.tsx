@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
 
 export const AdminDashboard = () => {
-  // Sacamos el usuario del store para personalizar el panel
   const user = useAuthStore((state) => state.user);
 
   return (
@@ -10,7 +9,7 @@ export const AdminDashboard = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-12"
+      className="space-y-12 container mx-auto max-w-7xl px-8 md:px-24 py-12"
     >
       <header className="border-b border-atlantis-secondary/20 pb-6">
         <span className="font-plex text-[10px] text-atlantis-secondary uppercase tracking-[0.3em] font-black">
@@ -24,7 +23,6 @@ export const AdminDashboard = () => {
         </p>
       </header>
 
-      {/* Grid de Métricas Principales */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {[
           { id: '01', label: 'Ventas Totales', value: '8.420', color: 'text-atlantis-bg-main' },
@@ -50,7 +48,6 @@ export const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* Bloque de Información Secundaria */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="border border-atlantis-secondary/20 p-8 bg-atlantis-white">
           <h3 className="font-syne text-h5 font-bold text-atlantis-bg-main uppercase tracking-tight mb-6">
