@@ -1,18 +1,30 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUIStore } from '../../store/uiStore';
+import { useAuthStore } from '../../store/authStore';
 
 export const Sidebar = () => {
   const { isSidebarOpen, setSidebarOpen } = useUIStore();
+  const { logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   const menuItems = [
     { label: 'Overview', path: '/admin' },
-    { label: 'Entradas', path: '/admin/tickets' },
-    { label: 'Usuarios', path: '/admin/users' },
-    { label: 'Sistema', path: '/admin/settings' },
+    { label: 'Artistas', path: '/admin/tickets' },
+    { label: 'Clientes', path: '/admin/users' },
+    { label: 'Staff', path: '/admin/settings' },
+    { label: 'FoodTrucks', path: '/admin/settings' },
+    { label: 'Tickets', path: '/admin/settings' },
+    { label: 'Recinto', path: '/admin/settings' },
+    { label: 'Conciertos', path: '/admin/settings' },
   ];
+
+  const handleLogout = () => {
+    logout();
+    setSidebarOpen(false);
+    navigate('/login');
+  };
 
   return (
     <AnimatePresence>
@@ -34,7 +46,7 @@ export const Sidebar = () => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed top-0 left-0 h-screen w-full md:w-80 bg-atlantis-primary z-[105] flex flex-col p-8 pt-32"
+            className="fixed top-0 left-0 h-screen w-full md:w-80 bg-atlantis-primary z-[105] flex flex-col p-8 pt-32 justify-between"
           >
             {/* OPCIONES DE MENÚ */}
             <nav className="flex flex-col gap-8">
@@ -53,6 +65,14 @@ export const Sidebar = () => {
                 </button>
               ))}
             </nav>
+            
+            {/* LOGOUT BUTTON */}
+            <button
+              onClick={handleLogout}
+              className="text-left font-plex text-sm font-black uppercase tracking-[0.2em] text-atlantis-white/60 hover:text-atlantis-error transition-colors mt-auto mb-8"
+            >
+              Cerrar Sesión
+            </button>
           </motion.aside>
         </>
       )}
