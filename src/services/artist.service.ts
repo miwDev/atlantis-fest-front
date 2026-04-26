@@ -1,9 +1,16 @@
 import api from "../config/api";
-import type { ArtistOutputDTO } from "../types/output.dto";
+import type {
+  ArtistOutputDTO,
+  ConcertOutputDTO,
+  PageDTO,
+} from "../types/output.dto";
 import type { ArtistInputDTO } from "../types/input.dto";
 
 export const artistService = {
-  getAll: () => api.get<ArtistOutputDTO[]>("/artistas").then((res) => res.data),
+  getAll: (page = 0, size = 20) =>
+    api
+      .get<PageDTO<ArtistOutputDTO>>("/artistas", { params: { page, size } })
+      .then((res) => res.data),
 
   getById: (id: string | number) =>
     api.get<ArtistOutputDTO>(`/artistas/${id}`).then((res) => res.data),
@@ -16,4 +23,11 @@ export const artistService = {
 
   delete: (id: string | number) =>
     api.delete(`/artistas/${id}`).then((res) => res.data),
+
+  getConcertsByArtist: (artistId: string | number, page = 0, size = 20) =>
+    api
+      .get<
+        PageDTO<ConcertOutputDTO>
+      >(`/artistas/${artistId}/conciertos`, { params: { page, size } })
+      .then((res) => res.data),
 };
