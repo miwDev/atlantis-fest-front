@@ -8,20 +8,18 @@ import logoOscuro from '../../assets/logo-dark.svg';
 export const Navbar = () => {
   const { isNavbarOpen, isSidebarOpen, toggleNavbar, toggleSidebar, closeAll } = useUIStore();
   
-  // Traemos el estado de autenticación y funciones del Zustand
   const { user, isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
 
-  // Opciones dinámicas según el rol
   let menuOptions: string[] = [];
   if (!isAuthenticated) {
     menuOptions = ['Tickets', 'Lineup', 'Recinto'];
   } else if (user?.role === 'ADMIN') {
-    menuOptions = []; // Por definir más adelante
+    menuOptions = [];
   } else if (user?.role === 'CLIENT') {
-    menuOptions = []; // Por definir más adelante
+    menuOptions = [];
   } else {
     menuOptions = [];
   }
@@ -37,16 +35,13 @@ export const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full z-[110] flex justify-between items-center px-6 md:px-8 py-4 pointer-events-none">
         
-        {/* IZQUIERDA: Logo y Hamburguesa */}
         <div className="flex items-center gap-6 md:gap-8 pointer-events-auto">
-          {/* Logo */}
           <img 
             src={isDarkBg ? logoOscuro : logoClaro} 
             alt="Atlantis Logo" 
             className="h-16 w-16 md:h-20 md:w-20 object-contain transition-opacity duration-500"
           />
 
-          {/* Hamburger (Solo en Admin) */}
           {isAdmin && (
             <button
               onClick={toggleSidebar}

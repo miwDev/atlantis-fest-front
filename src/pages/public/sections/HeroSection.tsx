@@ -6,14 +6,12 @@ export const HeroSection = () => {
   return (
     <section className="relative w-full h-[80vh] md:h-[90vh] flex flex-col md:flex-row overflow-hidden border-y border-atlantis-bg-main mb-24">
       
-      {/* IZQUIERDA: Imagen de fondo */}
       <div className="w-full md:w-[60%] h-1/2 md:h-full relative border-b md:border-b-0 md:border-r border-atlantis-bg-main bg-atlantis-bg-alt">
         <img 
           src={heroBg} 
           alt="Atlantis Hero" 
           className="w-full h-full object-cover opacity-90 mix-blend-screen"
         />
-        {/* Textos decorativos encima de la imagen */}
         <div className="absolute top-4 left-4 font-plex text-[10px] uppercase tracking-[0.2em] text-atlantis-white mix-blend-difference font-bold hidden md:block">
           WORK BY ATLANTIS
         </div>
@@ -22,7 +20,6 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* DERECHA: Menú tipo panel editorial */}
       <div className="w-full md:w-[40%] h-1/2 md:h-full bg-atlantis-white flex flex-col relative py-6 px-8 md:py-12 md:px-16">
         <div className="flex justify-between items-center w-full font-plex text-[10px] uppercase tracking-widest mb-8 md:mb-24">
           <span className="font-bold">WORK WITH US</span>
@@ -30,14 +27,11 @@ export const HeroSection = () => {
         </div>
         
         <div className="grid grid-cols-3 gap-2 md:gap-4 mt-24 md:mt-48 mb-auto max-w-lg w-full mx-auto items-center">
-          {/* Fila 1 */}
           {['MAGAZINE', 'ARTIST FUND', 'ABOUT US'].map((item, idx) => (
             <button key={`r1-${idx}`} className="w-full py-3 md:py-4 rounded-[2rem] border-[1.5px] border-atlantis-bg-main text-[8px] md:text-[9px] font-bold uppercase tracking-[0.1em] hover:bg-atlantis-bg-main hover:text-atlantis-white transition-colors flex items-center justify-center text-center leading-tight">
               {item}
             </button>
           ))}
-
-          {/* Fila 2 (Con la imagen del teléfono en el centro) */}
           <button className="w-full py-3 md:py-4 rounded-[2rem] border-[1.5px] border-atlantis-bg-main text-[8px] md:text-[9px] font-bold uppercase tracking-[0.1em] hover:bg-atlantis-bg-main hover:text-atlantis-white transition-colors flex items-center justify-center text-center leading-tight">
             GITHUB
           </button>
@@ -47,8 +41,6 @@ export const HeroSection = () => {
           <button className="w-full py-3 md:py-4 rounded-[2rem] border-[1.5px] border-atlantis-bg-main text-[8px] md:text-[9px] font-bold uppercase tracking-[0.1em] hover:bg-atlantis-bg-main hover:text-atlantis-white transition-colors flex items-center justify-center text-center leading-tight">
             SERVICES
           </button>
-
-          {/* Fila 3 */}
           {['PROJECTS', 'DESIGN STORE', 'INSTAGRAM'].map((item, idx) => (
             <button key={`r3-${idx}`} className="w-full py-3 md:py-4 rounded-[2rem] border-[1.5px] border-atlantis-bg-main text-[8px] md:text-[9px] font-bold uppercase tracking-[0.1em] hover:bg-atlantis-bg-main hover:text-atlantis-white transition-colors flex items-center justify-center text-center leading-tight">
               {item}
@@ -60,8 +52,6 @@ export const HeroSection = () => {
           ATLANTIS FEST 2026 BCN MUSIC
         </div>
       </div>
-
-      {/* TEXTO GIGANTE SUPERPUESTO (Absolute Arriba Izquierda) */}
       <motion.div 
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}

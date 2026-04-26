@@ -4,12 +4,8 @@ import { Login } from './pages/public/Login';
 import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
 
-//const Home = () => <div className="min-h-screen bg-neutral-950 p-10 text-teal-400 text-2xl font-bold">Portada Pública (Landing Page)</div>;
 const ClientDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white">Panel de Cliente: Mis Entradas y Mapa</div>;
-//const ArtistDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white">Panel de Artista: Rider y Camerinos</div>;
-//const StaffDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white">Panel de Staff: Validación y Chat</div>;
 const AdminDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white font-bold text-3xl">Panel de Gestión Total (ADMIN)</div>;
-//const NotFound = () => <div className="min-h-screen bg-neutral-950 p-10 text-red-500">404 - Página no encontrada</div>;
 
 const ProtectedRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user, isAuthenticated } = useAuthStore();
@@ -33,7 +29,6 @@ function App() {
 
         <Route element={<MainLayout />}>
           
-          {/* Landing Page Pública bajo el MainLayout */}
           <Route path="/" element={<Landing />} />
           
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
