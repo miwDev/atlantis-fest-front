@@ -11,13 +11,13 @@ export const Sidebar = () => {
 
   const menuItems = [
     { label: 'Overview', path: '/admin' },
-    { label: 'Artistas', path: '/admin/tickets' },
-    { label: 'Clientes', path: '/admin/users' },
-    { label: 'Staff', path: '/admin/settings' },
-    { label: 'FoodTrucks', path: '/admin/settings' },
-    { label: 'Tickets', path: '/admin/settings' },
-    { label: 'Recinto', path: '/admin/settings' },
-    { label: 'Conciertos', path: '/admin/settings' },
+    { label: 'Artistas', path: '/admin/artists' },
+    { label: 'Clientes', path: '/admin/clientes' },
+    { label: 'Staff', path: '/admin/staff' },
+    { label: 'FoodTrucks', path: '/admin/foodtruck' },
+    { label: 'Tickets', path: '/admin/tickets' },
+    { label: 'Mapa', path: '/admin/mapa' },
+    { label: 'Conciertos', path: '/admin/conciertos' },
   ];
 
   const handleLogout = () => {
