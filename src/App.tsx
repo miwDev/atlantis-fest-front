@@ -3,11 +3,8 @@ import { useAuthStore } from './store/authStore';
 import { Login } from './pages/public/Login';
 import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
-<<<<<<< Updated upstream
-=======
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { ArtistsPage } from './pages/admin/ArtistsPage';
->>>>>>> Stashed changes
 
 const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
 
