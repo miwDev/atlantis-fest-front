@@ -3,8 +3,11 @@ export interface ArtistOutputDTO {
   email: string;
   username: string;
   artistName: string;
+  name: string;
+  surname: string;
   biography?: string;
   genres?: string[];
+  fotoUrl?: string;
 }
 
 export interface ClientOutputDTO {
@@ -133,4 +136,3 @@ export interface PageDTO<T> {
   numberOfElements: number;
   empty: boolean;
 }
-

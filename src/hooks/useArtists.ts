@@ -19,15 +19,26 @@ export const useArtists = () => {
     }
   };
 
-  const saveArtist = async (input: ArtistInputDTO, id?: number) => {
+  const saveArtist = async (input: ArtistInputDTO, id?: number, foto?: File) => {
     setLoading(true);
     try {
+      let artistId = id;
+
       if (id) {
+        // Editar: actualizar datos
         await artistService.update(id, input);
       } else {
-        await artistService.create(input);
+        // Crear: primero datos, obtenemos el ID del nuevo artista
+        const created = await artistService.create(input);
+        artistId = created.id;
       }
-      await getArtists(data?.number || 0); // Recargar página actual
+
+      // Si hay foto, la subimos (flujo estándar: datos primero, foto después)
+      if (foto && artistId) {
+        await artistService.uploadFoto(artistId, foto);
+      }
+
+      await getArtists(data?.number || 0);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar artista");
       throw err;

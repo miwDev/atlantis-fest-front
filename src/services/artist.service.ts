@@ -30,4 +30,12 @@ export const artistService = {
         PageDTO<ConcertOutputDTO>
       >(`/artistas/${artistId}/conciertos`, { params: { page, size } })
       .then((res) => res.data),
+
+  uploadFoto: (id: string | number, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return api.post(`/artistas/${id}/foto`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
 };
