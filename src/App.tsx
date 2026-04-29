@@ -3,9 +3,9 @@ import { useAuthStore } from './store/authStore';
 import { Login } from './pages/public/Login';
 import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
 
-const ClientDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white">Panel de Cliente: Mis Entradas y Mapa</div>;
-const AdminDashboard = () => <div className="min-h-screen bg-neutral-950 p-10 text-white font-bold text-3xl">Panel de Gestión Total (ADMIN)</div>;
+const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
 
 const ProtectedRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user, isAuthenticated } = useAuthStore();
