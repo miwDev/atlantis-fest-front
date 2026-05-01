@@ -15,9 +15,10 @@ export interface ClientOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  dni?: string;
-  fechaNacimiento?: string;
-  favoriteGenres?: string[];
+  apellidos: string;
+  dni: string;
+  fechaNacimiento: string;
+  favoriteGenres: string[];
 }
 
 export interface ConcertOutputDTO {

@@ -14,9 +14,10 @@ export interface ClientInputDTO {
   username: string;
   password?: string;
   nombre: string;
-  dni?: string;
-  fechaNacimiento?: string;
-  favoriteGenreIds?: number[];
+  apellidos: string;
+  dni: string;
+  fechaNacimiento: string;
+  favoriteGenreIds: number[];
 }
 
 export interface ConcertInputDTO {

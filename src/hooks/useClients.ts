@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { clientService } from "../services/client.service";
+import type { ClientOutputDTO, PageDTO } from "../types/output.dto";
 import type { ClientInputDTO } from "../types/input.dto";
 
 export const useClients = () => {
-  const [data, setData] = useState<any>(null);
+  const [clients, setClients] = useState<ClientOutputDTO[]>([]);
+  const [pagination, setPagination] = useState<PageDTO<ClientOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getClients = async (page = 0, size = 20) => {
+  const getClients = async (page = 0) => {
     setLoading(true);
     try {
-      const res = await clientService.getAll(page, size);
-      setData(res);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error al cargar clientes");
+      const data = await clientService.getAll(page);
+      setClients(data.content);
+      setPagination(data);
+    } catch (err) {
+      setError("Error al cargar los clientes");
     } finally {
       setLoading(false);
     }
@@ -27,9 +30,9 @@ export const useClients = () => {
       } else {
         await clientService.create(input);
       }
-      await getClients(data?.number || 0);
+      await getClients(pagination?.number || 0);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al guardar cliente");
+      setError(err.response?.data?.message || "Error al guardar el cliente");
       throw err;
     } finally {
       setLoading(false);
@@ -40,17 +43,17 @@ export const useClients = () => {
     setLoading(true);
     try {
       await clientService.delete(id);
-      await getClients(data?.number || 0);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error al borrar cliente");
+      await getClients(pagination?.number || 0);
+    } catch (err) {
+      setError("Error al eliminar el cliente");
     } finally {
       setLoading(false);
     }
   };
 
   return {
-    clients: data?.content || [],
-    pagination: data,
+    clients,
+    pagination,
     loading,
     error,
     getClients,
