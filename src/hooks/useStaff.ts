@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { staffService } from "../services/staff.service";
+import type { StaffOutputDTO, PageDTO } from "../types/output.dto";
 import type { StaffInputDTO } from "../types/input.dto";
 
 export const useStaff = () => {
-  const [data, setData] = useState<any>(null);
+  const [staffList, setStaffList] = useState<StaffOutputDTO[]>([]);
+  const [pagination, setPagination] = useState<PageDTO<StaffOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getStaff = async (page = 0, size = 20) => {
+  const getStaff = async (page = 0) => {
     setLoading(true);
     try {
-      const res = await staffService.getAll(page, size);
-      setData(res);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error al cargar staff");
+      const data = await staffService.getAll(page);
+      setStaffList(data.content);
+      setPagination(data);
+    } catch (err) {
+      setError("Error al cargar el staff");
     } finally {
       setLoading(false);
     }
@@ -27,9 +30,9 @@ export const useStaff = () => {
       } else {
         await staffService.create(input);
       }
-      await getStaff(data?.number || 0);
+      await getStaff(pagination?.number || 0);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al guardar staff");
+      setError(err.response?.data?.message || "Error al guardar el staff");
       throw err;
     } finally {
       setLoading(false);
@@ -40,17 +43,17 @@ export const useStaff = () => {
     setLoading(true);
     try {
       await staffService.delete(id);
-      await getStaff(data?.number || 0);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error al borrar staff");
+      await getStaff(pagination?.number || 0);
+    } catch (err) {
+      setError("Error al eliminar el staff");
     } finally {
       setLoading(false);
     }
   };
 
   return {
-    staffList: data?.content || [],
-    pagination: data,
+    staffList,
+    pagination,
     loading,
     error,
     getStaff,
