@@ -2,10 +2,13 @@ import { useState } from "react";
 import { foodtruckService } from "../services/foodtruck.service";
 import type { FoodtruckOutputDTO, PageDTO } from "../types/output.dto";
 import type { FoodtruckInputDTO } from "../types/input.dto";
+import { zoneService } from "../services/zone.service";
+import type { ZoneOutputDTO } from "../types/output.dto";
 
 export const useFoodtrucks = () => {
   const [foodtrucks, setFoodtrucks] = useState<FoodtruckOutputDTO[]>([]);
   const [pagination, setPagination] = useState<PageDTO<FoodtruckOutputDTO> | null>(null);
+  const [foodtruckZones, setFoodtruckZones] = useState<ZoneOutputDTO[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,6 +18,12 @@ export const useFoodtrucks = () => {
       const data = await foodtruckService.getAll(page);
       setFoodtrucks(data.content);
       setPagination(data);
+
+      if (foodtruckZones.length === 0) {
+        // Obtenemos zonas y filtramos solo las de tipo FOODTRUCK
+        const zonesRes = await zoneService.getAll(0, 100);
+        setFoodtruckZones(zonesRes.content.filter(z => z.tipo === 'FOODTRUCK'));
+      }
     } catch (err) {
       setError("Error al cargar los foodtrucks");
     } finally {
@@ -68,6 +77,7 @@ export const useFoodtrucks = () => {
   return {
     foodtrucks,
     pagination,
+    foodtruckZones,
     loading,
     error,
     getFoodtrucks,
