@@ -12,6 +12,8 @@ import { ZonesPage } from './pages/admin/ZonesPage';
 import { TicketsPage } from './pages/admin/TicketsPage';
 import { ConcertsPage } from './pages/admin/ConcertsPage';
 import { FoodtrucksPage } from './pages/admin/FoodtrucksPage';
+import { LegalPage } from './pages/public/LegalPage';
+import { FaqsPage } from './pages/public/FaqsPage';
 
 const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
 
@@ -38,6 +40,8 @@ function App() {
         <Route element={<MainLayout />}>
           
           <Route path="/" element={<Landing />} />
+          <Route path="/legal" element={<LegalPage />} />
+          <Route path="/info" element={<FaqsPage />} />
           
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="/admin" element={<FestivalPage />} />
