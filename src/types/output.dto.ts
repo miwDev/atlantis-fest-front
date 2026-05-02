@@ -15,9 +15,10 @@ export interface ClientOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  dni?: string;
-  fechaNacimiento?: string;
-  favoriteGenres?: string[];
+  apellidos: string;
+  dni: string;
+  fechaNacimiento: string;
+  favoriteGenres: string[];
 }
 
 export interface ConcertOutputDTO {
@@ -44,7 +45,6 @@ export interface FoodtruckOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  menuPdfUrl?: string;
   tipoComida: string;
   imagenPortadaUrl?: string;
   estaAbierto?: boolean;

@@ -4,6 +4,9 @@ import { Login } from './pages/public/Login';
 import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { ArtistsPage } from './pages/admin/ArtistsPage';
+import { ClientsPage } from './pages/admin/ClientsPage';
+import { StaffPage } from './pages/admin/StaffPage';
 
 const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
 
@@ -33,6 +36,9 @@ function App() {
           
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/artistas" element={<ArtistsPage />} />
+            <Route path="/admin/clientes" element={<ClientsPage />} />
+            <Route path="/admin/staff" element={<StaffPage />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={['CLIENT']} />}>
