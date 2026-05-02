@@ -34,7 +34,6 @@ export interface FestivalInputDTO {
   fechaInicio: string;
   fechaFin: string;
   ubicacionGeneral?: string;
-  logoUrl?: string;
 }
 
 export interface FoodtruckInputDTO {
