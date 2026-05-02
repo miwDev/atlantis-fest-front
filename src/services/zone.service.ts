@@ -24,4 +24,6 @@ export const zoneService = {
     api
       .get<PageDTO<ZoneOutputDTO>>(`/zonas/festival/${festivalId}`, { params: { page, size } })
       .then((res) => res.data),
+
+  getTipos: () => api.get<string[]>("/zonas/tipos").then((res) => res.data),
 };

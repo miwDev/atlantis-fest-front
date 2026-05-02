@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { zoneService } from "../services/zone.service";
 import type { ZoneInputDTO } from "../types/input.dto";
+import type { ZoneOutputDTO, PageDTO } from "../types/output.dto";
 
 export const useZones = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<PageDTO<ZoneOutputDTO> | null>(null);
+  const [tipos, setTipos] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,6 +14,11 @@ export const useZones = () => {
     try {
       const res = await zoneService.getAll(page, size);
       setData(res);
+      
+      if (tipos.length === 0) {
+        const tiposRes = await zoneService.getTipos();
+        setTipos(tiposRes);
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar zonas");
     } finally {
@@ -63,6 +70,7 @@ export const useZones = () => {
   return {
     zones: data?.content || [],
     pagination: data,
+    tipos,
     loading,
     error,
     getZones,
