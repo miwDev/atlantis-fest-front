@@ -49,6 +49,7 @@ export interface FoodtruckOutputDTO {
   latitudActual?: number;
   longitudActual?: number;
   zoneNombre?: string;
+  tieneMenuPdf?: boolean;
 }
 
 export interface GenreOutputDTO {
