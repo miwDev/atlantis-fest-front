@@ -10,11 +10,12 @@ export const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Overview', path: '/admin' },
+    { label: 'Festival', path: '/admin' },
     { label: 'Artistas', path: '/admin/artistas' },
     { label: 'Clientes', path: '/admin/clientes' },
     { label: 'Staff', path: '/admin/staff' },
     { label: 'FoodTrucks', path: '/admin/foodtruck' },
+    { label: 'Zonas', path: '/admin/zonas' },
     { label: 'Tickets', path: '/admin/tickets' },
     { label: 'Mapa', path: '/admin/mapa' },
     { label: 'Conciertos', path: '/admin/conciertos' },

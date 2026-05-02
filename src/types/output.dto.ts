@@ -37,7 +37,6 @@ export interface FestivalOutputDTO {
   fechaInicio: string;
   fechaFin: string;
   ubicacionGeneral?: string;
-  logoUrl?: string;
 }
 
 export interface FoodtruckOutputDTO {
@@ -113,6 +112,15 @@ export interface TicketTypeOutputDTO {
   descripcion?: string;
   maxDisponible: number;
   festivalNombre: string;
+}
+
+export interface TicketTypeSalesOutputDTO {
+  ticketTypeId: number;
+  tipo: string;
+  precioBase: number;
+  vendidos: number;
+  disponibles: number;
+  ingresoTotal: number;
 }
 
 export interface ZoneOutputDTO {
