@@ -14,9 +14,10 @@ export interface ClientInputDTO {
   username: string;
   password?: string;
   nombre: string;
-  dni?: string;
-  fechaNacimiento?: string;
-  favoriteGenreIds?: number[];
+  apellidos: string;
+  dni: string;
+  fechaNacimiento: string;
+  favoriteGenreIds: number[];
 }
 
 export interface ConcertInputDTO {
@@ -33,7 +34,6 @@ export interface FestivalInputDTO {
   fechaInicio: string;
   fechaFin: string;
   ubicacionGeneral?: string;
-  logoUrl?: string;
 }
 
 export interface FoodtruckInputDTO {
@@ -41,9 +41,7 @@ export interface FoodtruckInputDTO {
   username: string;
   password?: string;
   nombre: string;
-  menuPdfUrl?: string;
   tipoComida: string;
-  imagenPortadaUrl?: string;
   zoneId?: number;
 }
 

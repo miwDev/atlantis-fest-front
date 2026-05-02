@@ -10,11 +10,12 @@ export const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Overview', path: '/admin' },
-    { label: 'Artistas', path: '/admin/artists' },
+    { label: 'Festival', path: '/admin' },
+    { label: 'Artistas', path: '/admin/artistas' },
     { label: 'Clientes', path: '/admin/clientes' },
     { label: 'Staff', path: '/admin/staff' },
     { label: 'FoodTrucks', path: '/admin/foodtruck' },
+    { label: 'Zonas', path: '/admin/zonas' },
     { label: 'Tickets', path: '/admin/tickets' },
     { label: 'Mapa', path: '/admin/mapa' },
     { label: 'Conciertos', path: '/admin/conciertos' },
@@ -30,7 +31,6 @@ export const Sidebar = () => {
     <AnimatePresence>
       {isSidebarOpen && (
         <>
-          {/* BACKDROP */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -40,7 +40,6 @@ export const Sidebar = () => {
             className="fixed inset-0 bg-atlantis-bg-main/60 backdrop-blur-sm z-[100]"
           />
 
-          {/* SIDEBAR */}
           <motion.aside
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
@@ -48,7 +47,6 @@ export const Sidebar = () => {
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
             className="fixed top-0 left-0 h-screen w-full md:w-80 bg-atlantis-primary z-[105] flex flex-col p-8 pt-32 justify-between"
           >
-            {/* OPCIONES DE MENÚ */}
             <nav className="flex flex-col gap-8">
               {menuItems.map((item) => (
                 <button
@@ -66,7 +64,6 @@ export const Sidebar = () => {
               ))}
             </nav>
             
-            {/* LOGOUT BUTTON */}
             <button
               onClick={handleLogout}
               className="text-left font-plex text-sm font-black uppercase tracking-[0.2em] text-atlantis-white/60 hover:text-atlantis-error transition-colors mt-auto mb-8"

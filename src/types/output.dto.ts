@@ -15,9 +15,10 @@ export interface ClientOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  dni?: string;
-  fechaNacimiento?: string;
-  favoriteGenres?: string[];
+  apellidos: string;
+  dni: string;
+  fechaNacimiento: string;
+  favoriteGenres: string[];
 }
 
 export interface ConcertOutputDTO {
@@ -36,7 +37,6 @@ export interface FestivalOutputDTO {
   fechaInicio: string;
   fechaFin: string;
   ubicacionGeneral?: string;
-  logoUrl?: string;
 }
 
 export interface FoodtruckOutputDTO {
@@ -44,7 +44,6 @@ export interface FoodtruckOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  menuPdfUrl?: string;
   tipoComida: string;
   imagenPortadaUrl?: string;
   estaAbierto?: boolean;
@@ -113,6 +112,15 @@ export interface TicketTypeOutputDTO {
   descripcion?: string;
   maxDisponible: number;
   festivalNombre: string;
+}
+
+export interface TicketTypeSalesOutputDTO {
+  ticketTypeId: number;
+  tipo: string;
+  precioBase: number;
+  vendidos: number;
+  disponibles: number;
+  ingresoTotal: number;
 }
 
 export interface ZoneOutputDTO {
