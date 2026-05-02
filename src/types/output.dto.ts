@@ -45,7 +45,6 @@ export interface FoodtruckOutputDTO {
   email: string;
   username: string;
   nombre: string;
-  menuPdfUrl?: string;
   tipoComida: string;
   imagenPortadaUrl?: string;
   estaAbierto?: boolean;

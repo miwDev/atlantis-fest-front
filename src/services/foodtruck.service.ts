@@ -19,4 +19,23 @@ export const foodtruckService = {
 
   delete: (id: string | number) =>
     api.delete(`/foodtrucks/${id}`).then((res) => res.data),
+
+  uploadFoto: (id: string | number, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return api.post(`/foodtrucks/${id}/foto`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+
+  uploadMenuPdf: (id: string | number, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return api.post(`/foodtrucks/${id}/menu`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+
+  getMenuPdfUrl: (id: string | number) =>
+    `${api.defaults.baseURL}/foodtrucks/${id}/menu`,
 };

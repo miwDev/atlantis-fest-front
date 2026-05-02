@@ -42,9 +42,7 @@ export interface FoodtruckInputDTO {
   username: string;
   password?: string;
   nombre: string;
-  menuPdfUrl?: string;
   tipoComida: string;
-  imagenPortadaUrl?: string;
   zoneId?: number;
 }
 
