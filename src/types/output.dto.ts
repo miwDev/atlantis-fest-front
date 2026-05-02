@@ -26,7 +26,6 @@ export interface ConcertOutputDTO {
   fecha: string;
   horaInicio: string;
   horaFin: string;
-  duracionEstimada?: number;
   artistName: string;
   zoneName: string;
 }
