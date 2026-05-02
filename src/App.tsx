@@ -8,6 +8,10 @@ import { ArtistsPage } from './pages/admin/ArtistsPage';
 import { ClientsPage } from './pages/admin/ClientsPage';
 import { StaffPage } from './pages/admin/StaffPage';
 import { FestivalPage } from './pages/admin/FestivalPage';
+import { ZonesPage } from './pages/admin/ZonesPage';
+import { TicketsPage } from './pages/admin/TicketsPage';
+import { ConcertsPage } from './pages/admin/ConcertsPage';
+import { FoodtrucksPage } from './pages/admin/FoodtrucksPage';
 
 const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
 
@@ -40,6 +44,10 @@ function App() {
             <Route path="/admin/artistas" element={<ArtistsPage />} />
             <Route path="/admin/clientes" element={<ClientsPage />} />
             <Route path="/admin/staff" element={<StaffPage />} />
+            <Route path="/admin/foodtruck" element={<FoodtrucksPage />} />
+            <Route path="/admin/zonas" element={<ZonesPage />} />
+            <Route path="/admin/tickets" element={<TicketsPage />} />
+            <Route path="/admin/conciertos" element={<ConcertsPage />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={['CLIENT']} />}>

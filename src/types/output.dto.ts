@@ -26,7 +26,6 @@ export interface ConcertOutputDTO {
   fecha: string;
   horaInicio: string;
   horaFin: string;
-  duracionEstimada?: number;
   artistName: string;
   zoneName: string;
 }
@@ -50,6 +49,7 @@ export interface FoodtruckOutputDTO {
   latitudActual?: number;
   longitudActual?: number;
   zoneNombre?: string;
+  tieneMenuPdf?: boolean;
 }
 
 export interface GenreOutputDTO {
