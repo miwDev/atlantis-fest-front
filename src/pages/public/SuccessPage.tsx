@@ -85,6 +85,13 @@ export const SuccessPage = () => {
               <button className="w-full bg-atlantis-bg-main text-atlantis-white px-8 py-5 font-syne font-black text-sm uppercase tracking-tighter hover:bg-atlantis-primary hover:text-atlantis-white transition-all">
                 DESCARGAR ENTRADAS PDF
               </button>
+
+              <Link 
+                to="/cliente"
+                className="w-full border-2 border-atlantis-bg-main text-atlantis-bg-main px-8 py-4 font-syne font-black text-sm uppercase tracking-tighter hover:bg-atlantis-bg-main hover:text-atlantis-white transition-all text-center mt-4"
+              >
+                IR A MI ÁREA PERSONAL
+              </Link>
             </div>
           </div>
         </motion.div>
