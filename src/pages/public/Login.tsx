@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
@@ -12,8 +12,15 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   
-  const login = useAuthStore((state) => state.login);
+  const { login, isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === 'ADMIN') navigate('/admin');
+      else if (user.role === 'CLIENT') navigate('/cliente');
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +41,9 @@ export const Login = () => {
       };
 
       await login(realUser, data.token); 
-      navigate('/admin');
+      if (realUser.role === 'ADMIN') navigate('/admin');
+      else if (realUser.role === 'CLIENT') navigate('/cliente');
+      else navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Fallo:", error.message);
