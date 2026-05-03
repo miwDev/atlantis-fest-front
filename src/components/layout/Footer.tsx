@@ -16,7 +16,7 @@ export const Footer = () => {
         
         {/* CENTRO/DERECHA: Enlaces */}
         <div className="flex flex-col gap-3 font-syne text-atlantis-white text-h5 md:text-h4 font-black uppercase tracking-tighter text-center md:text-right">
-          <a href="#" className="hover:text-atlantis-bg-main transition-colors">TICKETS</a>
+          <Link to="/tickets" className="hover:text-atlantis-bg-main transition-colors">TICKETS</Link>
           <Link to="/info" className="hover:text-atlantis-bg-main transition-colors">INFO & FAQS</Link>
           <Link to="/legal" className="hover:text-atlantis-bg-main transition-colors">LEGAL</Link>
         </div>
