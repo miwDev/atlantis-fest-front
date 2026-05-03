@@ -15,11 +15,15 @@ export const PublicTicketsPage = () => {
   }, []);
 
   return (
-    <div className="bg-atlantis-white text-atlantis-bg-main min-h-screen pt-32 pb-24 font-plex selection:bg-atlantis-primary selection:text-atlantis-bg-main relative overflow-hidden">
+    <div className="bg-atlantis-white text-atlantis-bg-main min-h-screen pt-16 pb-24 font-plex selection:bg-atlantis-primary selection:text-atlantis-bg-main relative overflow-hidden">
       
-      {/* Off-center Background Resource */}
-      <div className="absolute top-1/4 -left-16 md:-left-40 w-[21rem] md:w-[33.6rem] h-auto opacity-60 pointer-events-none mix-blend-multiply z-0">
+      {/* Background Decor Resources */}
+      <div className="absolute top-1/4 -right-16 md:-right-40 w-[21rem] md:w-[33.6rem] h-auto opacity-40 pointer-events-none mix-blend-multiply z-0">
         <img src={ticketImg2} alt="" className="w-full h-full object-cover grayscale" />
+      </div>
+
+      <div className="absolute bottom-1/4 -left-16 md:-left-40 w-[21rem] md:w-[33.6rem] h-auto opacity-40 pointer-events-none mix-blend-multiply z-0">
+        <img src={ticketImg1} alt="" className="w-full h-full object-cover grayscale" />
       </div>
 
       <div className="container mx-auto max-w-6xl px-8 md:px-16 relative z-10">
@@ -48,13 +52,9 @@ export const PublicTicketsPage = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="relative hidden lg:block aspect-video lg:aspect-[4/3] overflow-hidden"
+            className="hidden lg:flex items-center justify-center aspect-video lg:aspect-[4/3]"
           >
-            <img 
-              src={ticketImg1} 
-              alt="Brutalist Architecture" 
-              className="w-full h-full object-cover grayscale opacity-90"
-            />
+            {/* Espacio reservado para equilibrio visual sin imagen directa */}
           </motion.div>
         </div>
 

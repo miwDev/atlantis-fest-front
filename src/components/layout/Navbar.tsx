@@ -13,9 +13,13 @@ export const Navbar = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
 
-  let menuOptions: string[] = [];
+  let menuOptions: { label: string; path: string }[] = [];
   if (!isAuthenticated) {
-    menuOptions = ['Tickets', 'Lineup', 'Recinto'];
+    menuOptions = [
+      { label: 'Tickets', path: '/tickets' },
+      { label: 'Lineup', path: '/' }, 
+      { label: 'Recinto', path: '/' }
+    ];
   } else if (user?.role === 'ADMIN') {
     menuOptions = [];
   } else if (user?.role === 'CLIENT') {
@@ -95,12 +99,12 @@ export const Navbar = () => {
             <button
               key={index}
               onClick={() => {
-                // Aquí iría la navegación a la sección correspondiente
                 toggleNavbar();
+                navigate(item.path);
               }}
               className="font-syne text-h4 font-bold text-atlantis-white hover:opacity-60 transition-opacity duration-300 uppercase tracking-tighter"
             >
-              {item}
+              {item.label}
             </button>
           ))}
         </div>
