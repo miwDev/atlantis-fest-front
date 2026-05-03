@@ -94,6 +94,11 @@ export const CheckoutPage = () => {
 
       await Promise.all(purchasePromises);
       
+      // Save session info for personal area
+      localStorage.setItem('atlantis_client_id', newClient.id.toString());
+      localStorage.setItem('atlantis_client_name', clientForm.nombre);
+      localStorage.setItem('atlantis_client_email', clientForm.email);
+      
       // Redirect to success page with data
       navigate('/purchase-success', { 
         state: { 
