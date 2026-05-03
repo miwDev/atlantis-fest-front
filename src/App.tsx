@@ -12,8 +12,14 @@ import { ZonesPage } from './pages/admin/ZonesPage';
 import { TicketsPage } from './pages/admin/TicketsPage';
 import { ConcertsPage } from './pages/admin/ConcertsPage';
 import { FoodtrucksPage } from './pages/admin/FoodtrucksPage';
+import { LegalPage } from './pages/public/LegalPage';
+import { FaqsPage } from './pages/public/FaqsPage';
+import { PublicTicketsPage } from './pages/public/PublicTicketsPage';
+import { CheckoutPage } from './pages/public/CheckoutPage';
+import { SuccessPage } from './pages/public/SuccessPage';
+import { ClientPersonalPage } from './pages/public/ClientPersonalPage';
 
-const ClientDashboard = () => <div className="min-h-screen bg-atlantis-white p-10 text-atlantis-bg-main font-syne font-bold">Panel de Cliente: Mis Entradas y Mapa</div>;
+
 
 const ProtectedRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user, isAuthenticated } = useAuthStore();
@@ -38,6 +44,11 @@ function App() {
         <Route element={<MainLayout />}>
           
           <Route path="/" element={<Landing />} />
+          <Route path="/tickets" element={<PublicTicketsPage />} />
+          <Route path="/checkout/:ticketTypeId" element={<CheckoutPage />} />
+          <Route path="/purchase-success" element={<SuccessPage />} />
+          <Route path="/legal" element={<LegalPage />} />
+          <Route path="/info" element={<FaqsPage />} />
           
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="/admin" element={<FestivalPage />} />
@@ -50,9 +61,7 @@ function App() {
             <Route path="/admin/conciertos" element={<ConcertsPage />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={['CLIENT']} />}>
-            <Route path="/cliente" element={<ClientDashboard />} />
-          </Route>
+          <Route path="/cliente" element={<ClientPersonalPage />} />
           
         </Route>
 

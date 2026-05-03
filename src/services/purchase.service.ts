@@ -11,6 +11,9 @@ export const purchaseService = {
   getById: (id: string | number) =>
     api.get<PurchaseOutputDTO>(`/compras/${id}`).then((res) => res.data),
 
+  getByClientId: (clientId: string | number) =>
+    api.get<PageDTO<PurchaseOutputDTO>>(`/compras/cliente/${clientId}`).then((res) => res.data),
+
   create: (data: PurchaseInputDTO) =>
     api.post<PurchaseOutputDTO>("/compras", data).then((res) => res.data),
 
