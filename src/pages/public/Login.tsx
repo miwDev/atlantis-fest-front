@@ -40,8 +40,6 @@ export const Login = () => {
       const response = await api.post('/authorizations/login', { username, password });
       const data = response.data;
 
-      localStorage.setItem('auth_token', data.token);
-
       const realUser = {
         id: String(data.id), 
         name: data.username,

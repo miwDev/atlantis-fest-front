@@ -13,7 +13,10 @@ export const ArtistAgendaPage = () => {
 
   useEffect(() => {
     const fetchConcerts = async () => {
-      if (!user?.id) return;
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
       try {
         // We assume the logged in user ID matches the artist ID
         const res = await artistService.getConcertsByArtist(user.id, 0, 50);

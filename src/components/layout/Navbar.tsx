@@ -40,9 +40,11 @@ export const Navbar = () => {
   }
 
   const handleLogout = () => {
-    logout();
     closeAll();
-    navigate('/');
+    setTimeout(() => {
+      logout();
+      navigate('/');
+    }, 300);
   };
 
   const isDarkBg = isNavbarOpen || isSidebarOpen;

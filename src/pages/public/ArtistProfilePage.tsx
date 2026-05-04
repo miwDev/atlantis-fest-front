@@ -32,7 +32,10 @@ export const ArtistProfilePage = () => {
   }, [user]);
 
   const fetchProfile = async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
     try {
       const data = await artistService.getById(user.id);
       setArtist(data);
