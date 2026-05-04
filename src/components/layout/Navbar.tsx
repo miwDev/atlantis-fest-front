@@ -42,8 +42,8 @@ export const Navbar = () => {
   const handleLogout = () => {
     closeAll();
     setTimeout(() => {
-      logout();
-      navigate('/');
+      authLogout();
+      navigate('/login');
     }, 300);
   };
 
