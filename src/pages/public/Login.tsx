@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import api from '../../config/api'; 
+import { Eye, EyeOff, Lock, User as UserIcon } from 'lucide-react';
 import logoClaro from '../../assets/logo-light.svg';
 import loginBG from '../../assets/LoginBG.png'; 
+import api from '../../config/api'; 
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   
   const { login, isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export const Login = () => {
     if (isAuthenticated && user) {
       if (user.role === 'ADMIN') navigate('/admin');
       else if (user.role === 'CLIENT') navigate('/cliente');
+      else if (user.role === 'ARTIST') navigate('/artista');
     }
   }, [isAuthenticated, user, navigate]);
 
@@ -26,6 +29,12 @@ export const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMsg(''); 
+
+    if (!username || !password) {
+      setErrorMsg('Por favor, rellena todos los campos.');
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await api.post('/authorizations/login', { username, password });
@@ -43,12 +52,10 @@ export const Login = () => {
       await login(realUser, data.token); 
       if (realUser.role === 'ADMIN') navigate('/admin');
       else if (realUser.role === 'CLIENT') navigate('/cliente');
+      else if (realUser.role === 'ARTIST') navigate('/artista');
       else navigate('/');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Fallo:", error.message);
-      }
-      setErrorMsg('Credenciales incorrectas.');
+    } catch (error: any) {
+      setErrorMsg(error.response?.data?.message || 'Credenciales incorrectas.');
     } finally {
       setIsLoading(false);
     }
@@ -108,13 +115,22 @@ export const Login = () => {
               <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-atlantis-secondary">
                 Clave
               </label>
-              <input 
-                type="password" 
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-b border-atlantis-secondary/30 py-3 font-medium text-atlantis-bg-main focus:border-atlantis-primary outline-none transition-colors rounded-none bg-transparent"
-              />
+              <div className="relative">
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border-b border-atlantis-secondary/30 py-3 font-medium text-atlantis-bg-main focus:border-atlantis-primary outline-none transition-colors rounded-none bg-transparent pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-atlantis-secondary hover:text-atlantis-primary transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
 
             {errorMsg && (

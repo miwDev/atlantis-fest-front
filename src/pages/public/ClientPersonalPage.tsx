@@ -70,13 +70,6 @@ export const ClientPersonalPage = () => {
               Gestiona tus entradas y consulta los horarios del festival.
             </p>
           </div>
-          <button 
-            onClick={handleLogout}
-            className="flex items-center gap-2 font-plex font-bold uppercase tracking-widest text-atlantis-error hover:opacity-70 transition-opacity"
-          >
-            <LogOut size={18} />
-            Cerrar Sesión
-          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
