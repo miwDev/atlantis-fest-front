@@ -18,6 +18,8 @@ import { PublicTicketsPage } from './pages/public/PublicTicketsPage';
 import { CheckoutPage } from './pages/public/CheckoutPage';
 import { SuccessPage } from './pages/public/SuccessPage';
 import { ClientPersonalPage } from './pages/public/ClientPersonalPage';
+import { ArtistAgendaPage } from './pages/public/ArtistAgendaPage';
+import { ArtistProfilePage } from './pages/public/ArtistProfilePage';
 
 
 
@@ -62,6 +64,11 @@ function App() {
           </Route>
 
           <Route path="/cliente" element={<ClientPersonalPage />} />
+
+          <Route element={<ProtectedRoute allowedRoles={['ARTIST']} />}>
+            <Route path="/artista" element={<ArtistAgendaPage />} />
+            <Route path="/artista/perfil" element={<ArtistProfilePage />} />
+          </Route>
           
         </Route>
 
