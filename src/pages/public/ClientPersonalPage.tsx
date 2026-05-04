@@ -16,7 +16,7 @@ export const ClientPersonalPage = () => {
   const [purchases, setPurchases] = useState<PurchaseOutputDTO[]>([]);
   const [loadingTickets, setLoadingTickets] = useState(true);
   
-  const { logout: authLogout, user: authUser } = useAuthStore();
+  const { user: authUser } = useAuthStore();
   const clientName = authUser?.name || 'ASISTENTE';
   const clientId = authUser?.id;
 
@@ -41,8 +41,8 @@ export const ClientPersonalPage = () => {
   };
 
   const handleLogout = () => {
-    authLogout();
-    navigate('/login');
+    localStorage.clear();
+    navigate('/');
   };
 
   return (

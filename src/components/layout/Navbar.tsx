@@ -42,8 +42,8 @@ export const Navbar = () => {
   const handleLogout = () => {
     closeAll();
     setTimeout(() => {
-      authLogout();
-      navigate('/login');
+      logout();
+      navigate('/');
     }, 300);
   };
 
@@ -74,7 +74,6 @@ export const Navbar = () => {
           )}
         </div>
 
-        {/* DERECHA: + MENÚ */}
         <div className="flex justify-end pointer-events-auto">
           <button
             onClick={toggleNavbar}
@@ -98,7 +97,6 @@ export const Navbar = () => {
         </div>
       </nav>
 
-      {/* LA CORTINA DESPLEGABLE AZUL KLEIN */}
       <div
         className={`fixed top-0 left-0 w-full bg-atlantis-primary flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] z-[100] shadow-2xl ${
           isNavbarOpen ? 'h-[35vh] opacity-100' : 'h-0 opacity-0 pointer-events-none'
@@ -123,7 +121,6 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* BOTÓN INFERIOR DERECHO (Cerrar Sesión o Acceder) */}
         <div 
           className={`absolute bottom-6 right-6 md:bottom-10 md:right-10 transition-all duration-700 delay-300 ${
             isNavbarOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
