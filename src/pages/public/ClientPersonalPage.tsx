@@ -48,12 +48,12 @@ export const ClientPersonalPage = () => {
   return (
     <div className="min-h-screen bg-atlantis-white text-atlantis-bg-main font-plex relative overflow-hidden pt-32 pb-24">
       
-      {/* Background Decor Resources - Matching Tickets Style */}
-      <div className="absolute top-1/4 -right-16 md:-right-40 w-[21rem] md:w-[33.6rem] h-auto opacity-40 pointer-events-none mix-blend-multiply z-0">
+      {/* Ambient Decor - Adjusted for better readability */}
+      <div className="absolute top-1/4 -right-32 md:-right-60 w-[21rem] md:w-[33.6rem] h-auto opacity-[0.08] pointer-events-none mix-blend-multiply z-0">
         <img src={ticketImg2} alt="" className="w-full h-full object-cover grayscale" />
       </div>
 
-      <div className="absolute bottom-0 -left-16 md:-left-40 w-[21rem] md:w-[33.6rem] h-auto opacity-40 pointer-events-none mix-blend-multiply z-0">
+      <div className="absolute bottom-0 -left-32 md:-left-60 w-[21rem] md:w-[33.6rem] h-auto opacity-[0.08] pointer-events-none mix-blend-multiply z-0">
         <img src={ticketImg1} alt="" className="w-full h-full object-cover grayscale" />
       </div>
 
