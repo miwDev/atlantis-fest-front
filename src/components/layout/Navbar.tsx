@@ -22,14 +22,26 @@ export const Navbar = () => {
     ];
   } else if (user?.role === 'ADMIN') {
     menuOptions = [];
+  } else if (user?.role === 'ARTIST') {
+    menuOptions = [
+      { label: 'Agenda', path: '/artista' },
+      { label: 'Mi Perfil', path: '/artista/perfil' }
+    ];
   } else if (user?.role === 'CLIENT') {
-    menuOptions = [];
+    menuOptions = [
+      { label: 'Área Personal', path: '/cliente' }
+    ];
   } else {
-    menuOptions = [];
+    menuOptions = [
+      { label: 'Tickets', path: '/tickets' },
+      { label: 'Lineup', path: '/' },
+      { label: 'Recinto', path: '/' }
+    ];
   }
 
   const handleLogout = () => {
     logout();
+    closeAll();
     navigate('/');
   };
 
