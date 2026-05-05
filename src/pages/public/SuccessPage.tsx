@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle, Download, Ticket } from 'lucide-react';
+import { CheckCircle, Ticket } from 'lucide-react';
 import ticketImg1 from '../../assets/ticket1.webp';
 import ticketImg2 from '../../assets/ticket2.webp';
 import loginBg from '../../assets/LoginBG.png';
@@ -13,8 +14,8 @@ export const SuccessPage = () => {
     quantity: 1 
   };
 
-  const purchaseId = Math.random().toString(36).substring(2, 15).toUpperCase();
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ATLANTIS-${purchaseId}&color=161821&bgcolor=E6E9F0`;
+  const purchaseId = useMemo(() => Math.random().toString(36).substring(2, 15).toUpperCase(), []);
+  const qrUrl = useMemo(() => `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ATLANTIS-${purchaseId}&color=161821&bgcolor=E6E9F0`, [purchaseId]);
 
   return (
     <div className="min-h-screen bg-atlantis-white text-atlantis-bg-main font-plex relative overflow-hidden pt-16 pb-24">
