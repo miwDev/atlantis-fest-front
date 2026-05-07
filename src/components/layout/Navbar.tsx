@@ -31,6 +31,10 @@ export const Navbar = () => {
     menuOptions = [
       { label: 'Área Personal', path: '/cliente' }
     ];
+  } else if (user?.role === 'STAFF') {
+    menuOptions = [
+      { label: 'Área Operativa', path: '/staff' }
+    ];
   } else {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
