@@ -23,6 +23,7 @@ export const Login = () => {
       else if (user.role === 'CLIENT') navigate('/cliente');
       else if (user.role === 'ARTIST') navigate('/artista');
       else if (user.role === 'STAFF') navigate('/staff');
+      else if (user.role === 'FOODTRUCK') navigate('/foodtruck');
     }
   }, [isAuthenticated, user, navigate]);
 
@@ -44,7 +45,7 @@ export const Login = () => {
       const realUser = {
         id: String(data.id), 
         name: data.username,
-        role: data.role.replace('ROLE_', '') as "CLIENT" | "ARTIST" | "STAFF" | "ADMIN", 
+        role: data.role.replace('ROLE_', '') as "CLIENT" | "ARTIST" | "STAFF" | "ADMIN" | "FOODTRUCK", 
         email: data.email
       };
 
@@ -53,6 +54,7 @@ export const Login = () => {
       else if (realUser.role === 'CLIENT') navigate('/cliente');
       else if (realUser.role === 'ARTIST') navigate('/artista');
       else if (realUser.role === 'STAFF') navigate('/staff');
+      else if (realUser.role === 'FOODTRUCK') navigate('/foodtruck');
       else navigate('/');
     } catch (error: any) {
       setErrorMsg(error.response?.data?.message || 'Credenciales incorrectas.');

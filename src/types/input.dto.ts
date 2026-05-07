@@ -44,6 +44,7 @@ export interface FoodtruckInputDTO {
   tipoComida: string;
   zoneId?: number;
   tieneMenuPdf?: boolean;
+  estaAbierto?: boolean;
 }
 
 export interface GenreInputDTO {
