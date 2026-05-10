@@ -11,7 +11,7 @@ export const PublicTicketsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getTickets(0, 100);
+    getTickets(0, undefined);
   }, []);
 
   return (
