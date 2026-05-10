@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { createColumnHelper, type SortingState } from "@tanstack/react-table";
 import { useArtists } from "../../hooks/useArtists";
+import { genreService } from "../../services/genre.service";
 import { AdminPageHeader } from "../../components/admin/AdminPageHeader";
 import { AdminTable } from "../../components/admin/AdminTable";
 import { AdminModal } from "../../components/admin/AdminModal";
 import type { ArtistInputDTO } from "../../types/input.dto";
-import type { ArtistOutputDTO } from "../../types/output.dto";
+import type { ArtistOutputDTO, GenreOutputDTO } from "../../types/output.dto";
 
 const columnHelper = createColumnHelper<ArtistOutputDTO>();
 
@@ -34,6 +35,7 @@ export const ArtistsPage = () => {
   const [fotoFile, setFotoFile] = useState<File | undefined>(undefined);
   const [fotoPreview, setFotoPreview] = useState<string | undefined>(undefined);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [allGenres, setAllGenres] = useState<GenreOutputDTO[]>([]);
 
   
   const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
@@ -49,6 +51,7 @@ export const ArtistsPage = () => {
 
   useEffect(() => {
     getArtists(0);
+    genreService.getAll(0, 100).then(res => setAllGenres(res.content)).catch(console.error);
   }, []);
 
   const validate = (data: ArtistInputDTO) => {
@@ -107,6 +110,8 @@ export const ArtistsPage = () => {
     setFotoPreview(undefined);
     setTouched({});
     
+    const mappedGenreIds = allGenres.filter(g => artist.genres?.includes(g.nombre)).map(g => g.id);
+    
     setForm({
       email: artist.email,
       username: artist.username,
@@ -115,7 +120,7 @@ export const ArtistsPage = () => {
       surname: artist.surname || "",
       artistName: artist.artistName,
       biography: artist.biography ?? "",
-      genreIds: [],
+      genreIds: mappedGenreIds,
     });
     setModalOpen(true);
   };
@@ -316,6 +321,40 @@ export const ArtistsPage = () => {
               rows={3}
               className="w-full border border-atlantis-secondary/30 bg-atlantis-white px-3 py-2 font-plex text-xs text-atlantis-bg-main focus:outline-none focus:border-atlantis-primary resize-none"
             />
+          </div>
+
+          <div>
+            <label className="font-plex text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-secondary block mb-2">
+              Géneros Musicales
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {allGenres.length === 0 ? (
+                 <span className="font-plex text-[10px] text-atlantis-secondary/50 uppercase tracking-widest">Cargando géneros...</span>
+              ) : allGenres.map(g => {
+                const currentGenreIds = form.genreIds || [];
+                const isSelected = currentGenreIds.includes(g.id);
+                return (
+                  <button
+                    type="button"
+                    key={g.id}
+                    onClick={() => {
+                      if (isSelected) {
+                        setForm({...form, genreIds: currentGenreIds.filter(id => id !== g.id)});
+                      } else {
+                        setForm({...form, genreIds: [...currentGenreIds, g.id]});
+                      }
+                    }}
+                    className={`font-plex text-[9px] font-black uppercase tracking-wider px-3 py-1 border transition-colors ${
+                      isSelected 
+                        ? 'bg-atlantis-bg-main text-atlantis-white border-atlantis-bg-main' 
+                        : 'bg-transparent text-atlantis-secondary border-atlantis-secondary/30 hover:border-atlantis-primary hover:text-atlantis-primary'
+                    }`}
+                  >
+                    {g.nombre}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div>

@@ -114,7 +114,7 @@ export const CheckoutPage = () => {
     }
   };
 
-  const getErrorMessage = (name: string, value: string) => {
+  const getErrorMessage = (name: string, value: string | undefined) => {
     if (!touched[name]) return '';
     if (!value) return 'Este campo es obligatorio';
     if (name === 'email') return !/^\S+@\S+\.\S+$/.test(value) ? 'Email no válido' : '';
@@ -135,7 +135,7 @@ export const CheckoutPage = () => {
     return '';
   };
 
-  const validateField = (name: string, value: string) => {
+  const validateField = (name: string, value: string | undefined) => {
     return !!getErrorMessage(name, value);
   };
 

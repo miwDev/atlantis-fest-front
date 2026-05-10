@@ -36,7 +36,7 @@ const mapZones: ZoneDef[] = [
 export const InteractiveMapPage = () => {
   const { rawConcerts, loadData: loadConcerts } = useConcerts();
   const { foodtrucks, getFoodtrucks } = useFoodtrucks();
-  
+
   const [hoveredZone, setHoveredZone] = useState<ZoneDef | null>(null);
   const [selectedStage, setSelectedStage] = useState<ZoneDef | null>(null);
   const [selectedFoodtruck, setSelectedFoodtruck] = useState<FoodtruckOutputDTO | null>(null);
@@ -80,11 +80,11 @@ export const InteractiveMapPage = () => {
 
   return (
     <div className="bg-atlantis-white text-atlantis-bg-main min-h-screen pt-16 pb-24 font-plex selection:bg-atlantis-primary selection:text-atlantis-bg-main relative overflow-hidden">
-      
+
       <div className="container mx-auto max-w-7xl px-8 md:px-16 relative z-10">
-        
-        <Link 
-          to="/" 
+
+        <Link
+          to="/"
           className="inline-flex items-center gap-2 font-plex font-bold uppercase tracking-widest text-atlantis-secondary hover:text-atlantis-primary transition-colors mb-16"
         >
           <span>←</span> Volver
@@ -106,19 +106,19 @@ export const InteractiveMapPage = () => {
         </div>
 
         {/* Main Map Container */}
-        <div 
+        <div
           className="relative w-full overflow-hidden border-2 border-atlantis-bg-main/20 shadow-2xl bg-atlantis-bg-alt/5"
           onMouseMove={handleMouseMove}
         >
-          <img 
-            src={mapaImg} 
-            alt="Mapa del Festival" 
+          <img
+            src={mapaImg}
+            alt="Mapa del Festival"
             className="w-full h-auto object-cover opacity-90"
             style={{ display: 'block' }}
           />
 
-          <svg 
-            viewBox="0 0 5906 2717" 
+          <svg
+            viewBox="0 0 5906 2717"
             className="absolute inset-0 w-full h-full"
             preserveAspectRatio="none"
           >
@@ -126,7 +126,7 @@ export const InteractiveMapPage = () => {
               const isFoodtruck = zone.type === 'FOODTRUCK';
               const activeFoodtruck = isFoodtruck ? getFoodtruckForZone(zone.id) : null;
               const isClosed = isFoodtruck && activeFoodtruck && !activeFoodtruck.estaAbierto;
-              
+
               // If it's a foodtruck zone but no foodtruck is assigned, make it unclickable/less visible
               const isActive = !isFoodtruck || !!activeFoodtruck;
 
@@ -165,14 +165,14 @@ export const InteractiveMapPage = () => {
                 <div className="text-atlantis-primary mb-1 text-[8px] opacity-70">
                   {hoveredZone.type}
                 </div>
-                {hoveredZone.type === 'FOODTRUCK' 
+                {hoveredZone.type === 'FOODTRUCK'
                   ? (() => {
-                      const ft = getFoodtruckForZone(hoveredZone.id);
-                      if (!ft) return hoveredZone.name;
-                      return ft.estaAbierto ? ft.nombre : `${ft.nombre} (CERRADO)`;
-                    })()
+                    const ft = getFoodtruckForZone(hoveredZone.id);
+                    if (!ft) return hoveredZone.name;
+                    return ft.estaAbierto ? ft.nombre : `${ft.nombre} (CERRADO)`;
+                  })()
                   : hoveredZone.name}
-                
+
                 {hoveredZone.type === 'ESCENARIO' && (
                   <div className="text-[9px] mt-2 font-normal text-atlantis-white/60 lowercase italic">
                     Click para ver horarios
@@ -215,7 +215,7 @@ export const InteractiveMapPage = () => {
                     {selectedStage.name}
                   </h3>
                 </div>
-                <button 
+                <button
                   onClick={() => setSelectedStage(null)}
                   className="text-atlantis-white/50 hover:text-atlantis-primary transition-colors p-2"
                 >
@@ -233,7 +233,7 @@ export const InteractiveMapPage = () => {
                   </div>
                 ) : (
                   getConcertsForStage(selectedStage.id).map((concert) => (
-                    <div 
+                    <div
                       key={concert.id}
                       className="flex flex-col md:flex-row md:items-center justify-between p-4 border border-atlantis-bg-alt/20 hover:border-atlantis-primary/40 bg-atlantis-white/5 transition-colors group"
                     >
@@ -282,7 +282,7 @@ export const InteractiveMapPage = () => {
               onClick={(e) => e.stopPropagation()}
               className="bg-atlantis-white w-full max-w-md border border-atlantis-bg-main shadow-2xl p-8 cursor-default flex flex-col items-center text-center relative"
             >
-              <button 
+              <button
                 onClick={() => setSelectedFoodtruck(null)}
                 className="absolute top-4 right-4 text-atlantis-bg-main/50 hover:text-atlantis-bg-main transition-colors p-2"
               >
@@ -311,9 +311,9 @@ export const InteractiveMapPage = () => {
               </div>
 
               {selectedFoodtruck.tieneMenuPdf ? (
-                <a 
-                  href={foodtruckService.getMenuPdfUrl(selectedFoodtruck.id)} 
-                  target="_blank" 
+                <a
+                  href={foodtruckService.getMenuPdfUrl(selectedFoodtruck.id)}
+                  target="_blank"
                   rel="noreferrer"
                   className="bg-atlantis-bg-main text-atlantis-white hover:bg-atlantis-primary transition-colors px-8 py-3 font-plex text-sm font-bold tracking-widest flex items-center gap-2"
                 >
