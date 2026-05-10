@@ -5,12 +5,14 @@ import type { GenreInputDTO } from "../types/input.dto";
 export const useGenres = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getGenres = async (page = 0, size = 20) => {
+  const getGenres = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await genreService.getAll(page, size);
+      const res = await genreService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar géneros");
@@ -27,7 +29,7 @@ export const useGenres = () => {
       } else {
         await genreService.create(input);
       }
-      await getGenres(data?.number || 0);
+      await getGenres(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar género");
       throw err;
@@ -40,7 +42,7 @@ export const useGenres = () => {
     setLoading(true);
     try {
       await genreService.delete(id);
-      await getGenres(data?.number || 0);
+      await getGenres(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar género");
     } finally {

@@ -7,12 +7,14 @@ export const useClients = () => {
   const [clients, setClients] = useState<ClientOutputDTO[]>([]);
   const [pagination, setPagination] = useState<PageDTO<ClientOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getClients = async (page = 0) => {
+  const getClients = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const data = await clientService.getAll(page);
+      const data = await clientService.getAll(page, 5, sort);
       setClients(data.content);
       setPagination(data);
     } catch (err) {
@@ -30,7 +32,7 @@ export const useClients = () => {
       } else {
         await clientService.create(input);
       }
-      await getClients(pagination?.number || 0);
+      await getClients(pagination?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar el cliente");
       throw err;
@@ -43,7 +45,7 @@ export const useClients = () => {
     setLoading(true);
     try {
       await clientService.delete(id);
-      await getClients(pagination?.number || 0);
+      await getClients(pagination?.number || 0, sortString);
     } catch (err) {
       setError("Error al eliminar el cliente");
     } finally {

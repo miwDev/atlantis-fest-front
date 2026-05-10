@@ -3,6 +3,7 @@ import {
   getCoreRowModel,
   flexRender,
   type ColumnDef,
+  type SortingState,
 } from "@tanstack/react-table";
 
 interface AdminTableProps<T> {
@@ -11,6 +12,8 @@ interface AdminTableProps<T> {
   loading?: boolean;
   pagination?: any;
   onPageChange?: (page: number) => void;
+  sorting?: SortingState;
+  onSortingChange?: (sorting: SortingState | ((old: SortingState) => SortingState)) => void;
 }
 
 export function AdminTable<T>({
@@ -19,10 +22,17 @@ export function AdminTable<T>({
   loading,
   pagination,
   onPageChange,
+  sorting,
+  onSortingChange,
 }: AdminTableProps<T>) {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      ...(sorting ? { sorting } : {}),
+    },
+    onSortingChange: onSortingChange,
+    manualSorting: true,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
   });
@@ -48,9 +58,18 @@ export function AdminTable<T>({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-6 py-4 text-left font-plex text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-white"
+                    onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                    className={`px-6 py-4 text-left font-plex text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-white ${
+                      header.column.getCanSort() ? "cursor-pointer hover:text-atlantis-primary select-none transition-colors" : ""
+                    }`}
                   >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    <div className="flex items-center gap-2">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {{
+                        asc: "↑",
+                        desc: "↓",
+                      }[header.column.getIsSorted() as string] ?? null}
+                    </div>
                   </th>
                 ))}
               </tr>

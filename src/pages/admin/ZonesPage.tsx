@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper, type SortingState } from "@tanstack/react-table";
 import { useZones } from "../../hooks/useZones";
 import { AdminPageHeader } from "../../components/admin/AdminPageHeader";
 import { AdminTable } from "../../components/admin/AdminTable";
@@ -20,11 +20,24 @@ export const ZonesPage = () => {
   const { zones, pagination, tipos, loading, error: apiError, getZones, saveZone, removeZone } = useZones();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [editingId, setEditingId] = useState<number | undefined>(undefined);
   const [form, setForm] = useState<ZoneInputDTO>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ZoneInputDTO, string>>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof ZoneInputDTO, boolean>>>({});
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+
+  
+  const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+    const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    setSorting(newSorting);
+    if (newSorting.length > 0) {
+      const sortStr = `${newSorting[0].id},${newSorting[0].desc ? 'desc' : 'asc'}`;
+      getZones(0, sortStr);
+    } else {
+      getZones(0, undefined);
+    }
+  };
 
   useEffect(() => {
     getZones(0);
@@ -43,13 +56,6 @@ export const ZonesPage = () => {
   }, [form, modalOpen]);
 
   const isFormValid = Object.keys(errors).length === 0;
-
-  const openCreate = () => {
-    setEditingId(undefined);
-    setForm(emptyForm);
-    setTouched({});
-    setModalOpen(true);
-  };
 
   const openEdit = (zone: ZoneOutputDTO) => {
     setEditingId(zone.id);
@@ -110,8 +116,6 @@ export const ZonesPage = () => {
       <AdminPageHeader
         title="Zonas"
         subtitle={`${pagination?.totalElements ?? 0} zonas configuradas`}
-        onNew={openCreate}
-        newLabel="Nueva Zona"
       />
 
       {apiError && (
@@ -126,6 +130,8 @@ export const ZonesPage = () => {
         loading={loading}
         pagination={pagination}
         onPageChange={(page) => getZones(page)}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
       />
 
       <AdminModal open={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Zona" : "Nueva Zona"}>

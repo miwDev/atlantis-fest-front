@@ -3,8 +3,8 @@ import type { StaffOutputDTO, PageDTO } from "../types/output.dto";
 import type { StaffInputDTO } from "../types/input.dto";
 
 export const staffService = {
-  getAll: (page = 0, size = 20) =>
-    api.get<PageDTO<StaffOutputDTO>>("/staffs", { params: { page, size } }).then((res) => res.data),
+  getAll: (page = 0, size = 5, sort?: string) =>
+    api.get<PageDTO<StaffOutputDTO>>("/staffs", { params: { page, size, ...(sort && { sort }) } }).then((res) => res.data),
 
   getById: (id: string | number) =>
     api.get<StaffOutputDTO>(`/staffs/${id}`).then((res) => res.data),

@@ -10,6 +10,7 @@ import type { FestivalOutputDTO, ZoneOutputDTO, TicketTypeSalesOutputDTO, PageDT
 export const useFestivals = () => {
   const [data, setData] = useState<PageDTO<FestivalOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
   // States specific to the dashboard view
@@ -17,10 +18,11 @@ export const useFestivals = () => {
   const [zones, setZones] = useState<ZoneOutputDTO[]>([]);
   const [sales, setSales] = useState<TicketTypeSalesOutputDTO[]>([]);
 
-  const getFestivals = async (page = 0, size = 20) => {
+  const getFestivals = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await festivalService.getAll(page, size);
+      const res = await festivalService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar festivales");
@@ -40,7 +42,7 @@ export const useFestivals = () => {
       } else {
         await festivalService.create(input);
       }
-      await getFestivals(data?.number || 0);
+      await getFestivals(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar festival");
       throw err;
@@ -53,7 +55,7 @@ export const useFestivals = () => {
     setLoading(true);
     try {
       await festivalService.delete(id);
-      await getFestivals(data?.number || 0);
+      await getFestivals(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar festival");
     } finally {

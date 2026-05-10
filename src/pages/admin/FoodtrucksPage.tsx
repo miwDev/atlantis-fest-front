@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper, type SortingState } from "@tanstack/react-table";
 import { useFoodtrucks } from "../../hooks/useFoodtrucks";
 import { AdminPageHeader } from "../../components/admin/AdminPageHeader";
 import { AdminTable } from "../../components/admin/AdminTable";
@@ -17,13 +17,15 @@ const emptyForm: FoodtruckInputDTO = {
   nombre: "",
   tipoComida: "",
   zoneId: 0,
-  tieneMenuPdf: false
+  tieneMenuPdf: false,
+  estaAbierto: false
 };
 
 export const FoodtrucksPage = () => {
   const { foodtrucks, pagination, foodtruckZones, loading, error: apiError, getFoodtrucks, saveFoodtruck, removeFoodtruck } = useFoodtrucks();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [editingId, setEditingId] = useState<number | undefined>(undefined);
   const [editingFotoUrl, setEditingFotoUrl] = useState<string | undefined>(undefined);
   const [form, setForm] = useState<FoodtruckInputDTO>(emptyForm);
@@ -35,6 +37,18 @@ export const FoodtrucksPage = () => {
   const [menuPdfName, setMenuPdfName] = useState<string | undefined>(undefined);
   const [existingPdfUrl, setExistingPdfUrl] = useState<string | undefined>(undefined);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+
+  
+  const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+    const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    setSorting(newSorting);
+    if (newSorting.length > 0) {
+      const sortStr = `${newSorting[0].id},${newSorting[0].desc ? 'desc' : 'asc'}`;
+      getFoodtrucks(0, sortStr);
+    } else {
+      getFoodtrucks(0, undefined);
+    }
+  };
 
   useEffect(() => {
     getFoodtrucks(0);
@@ -100,7 +114,8 @@ export const FoodtrucksPage = () => {
       nombre: foodtruck.nombre,
       tipoComida: foodtruck.tipoComida,
       zoneId: matchedZone?.id || 0,
-      tieneMenuPdf: foodtruck.tieneMenuPdf
+      tieneMenuPdf: foodtruck.tieneMenuPdf,
+      estaAbierto: foodtruck.estaAbierto
     });
     setModalOpen(true);
   };
@@ -196,7 +211,10 @@ export const FoodtrucksPage = () => {
         </div>
       )}
 
-      <AdminTable data={foodtrucks} columns={columns} loading={loading} pagination={pagination} onPageChange={(page) => getFoodtrucks(page)} />
+      <AdminTable
+        data={foodtrucks} columns={columns} loading={loading} pagination={pagination} onPageChange={(page) => getFoodtrucks(page)}
+        sorting={sorting}
+        onSortingChange={handleSortingChange} />
 
       <AdminModal open={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar FoodTruck" : "Nuevo FoodTruck"}>
         <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-4">
@@ -218,9 +236,24 @@ export const FoodtrucksPage = () => {
               <label className="font-plex text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-secondary block">Zona (Opcional)</label>
               <select name="zoneId" value={form.zoneId || ""} onChange={(e) => setForm({ ...form, zoneId: Number(e.target.value) })} className="w-full border px-3 py-2 font-plex text-xs text-atlantis-bg-main bg-atlantis-white focus:outline-none transition-colors border-atlantis-secondary/30 focus:border-atlantis-primary">
                 <option value="">Ninguna zona asignada</option>
-                {foodtruckZones.map(z => <option key={z.id} value={z.id}>{z.nombre}</option>)}
+                {foodtruckZones
+                  .filter(z => !foodtrucks.some(ft => ft.zoneNombre === z.nombre && ft.id !== editingId))
+                  .map(z => <option key={z.id} value={z.id}>{z.nombre}</option>)}
               </select>
             </div>
+          </div>
+
+          <div className="flex items-center gap-2 py-2">
+            <input 
+              type="checkbox" 
+              id="estaAbierto" 
+              checked={form.estaAbierto || false} 
+              onChange={(e) => setForm({ ...form, estaAbierto: e.target.checked })}
+              className="w-4 h-4 accent-atlantis-primary cursor-pointer"
+            />
+            <label htmlFor="estaAbierto" className="font-plex text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-secondary cursor-pointer select-none">
+              ¿Está Abierto al público?
+            </label>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

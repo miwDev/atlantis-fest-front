@@ -10,12 +10,14 @@ export const useFoodtrucks = () => {
   const [pagination, setPagination] = useState<PageDTO<FoodtruckOutputDTO> | null>(null);
   const [foodtruckZones, setFoodtruckZones] = useState<ZoneOutputDTO[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getFoodtrucks = async (page = 0) => {
+  const getFoodtrucks = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const data = await foodtruckService.getAll(page);
+      const data = await foodtruckService.getAll(page, 5, sort);
       setFoodtrucks(data.content);
       setPagination(data);
 
@@ -53,7 +55,7 @@ export const useFoodtrucks = () => {
         await foodtruckService.uploadMenuPdf(foodtruckId, menuPdf);
       }
 
-      await getFoodtrucks(pagination?.number || 0);
+      await getFoodtrucks(pagination?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar el foodtruck");
       throw err;
@@ -66,7 +68,7 @@ export const useFoodtrucks = () => {
     setLoading(true);
     try {
       await foodtruckService.delete(id);
-      await getFoodtrucks(pagination?.number || 0);
+      await getFoodtrucks(pagination?.number || 0, sortString);
     } catch (err) {
       setError("Error al eliminar el foodtruck");
     } finally {

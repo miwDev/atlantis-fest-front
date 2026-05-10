@@ -18,7 +18,7 @@ export const Navbar = () => {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
       { label: 'Lineup', path: '/' }, 
-      { label: 'Recinto', path: '/' }
+      { label: 'Recinto', path: '/mapa' }
     ];
   } else if (user?.role === 'ADMIN') {
     menuOptions = [];
@@ -43,7 +43,7 @@ export const Navbar = () => {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
       { label: 'Lineup', path: '/' },
-      { label: 'Recinto', path: '/' }
+      { label: 'Recinto', path: '/mapa' }
     ];
   }
 

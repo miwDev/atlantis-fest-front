@@ -7,12 +7,14 @@ export const useZones = () => {
   const [data, setData] = useState<PageDTO<ZoneOutputDTO> | null>(null);
   const [tipos, setTipos] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getZones = async (page = 0, size = 20) => {
+  const getZones = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await zoneService.getAll(page, size);
+      const res = await zoneService.getAll(page, 5, sort);
       setData(res);
       
       if (tipos.length === 0) {
@@ -26,10 +28,11 @@ export const useZones = () => {
     }
   };
 
-  const getZonesByFestival = async (festivalId: number, page = 0, size = 20) => {
+  const getZonesByFestival = async (festivalId: number, page = 0, sort = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await zoneService.getByFestival(festivalId, page, size);
+      const res = await zoneService.getByFestival(festivalId, page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar zonas del festival");
@@ -46,7 +49,7 @@ export const useZones = () => {
       } else {
         await zoneService.create(input);
       }
-      await getZones(data?.number || 0);
+      await getZones(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar zona");
       throw err;
@@ -59,7 +62,7 @@ export const useZones = () => {
     setLoading(true);
     try {
       await zoneService.delete(id);
-      await getZones(data?.number || 0);
+      await getZones(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar zona");
     } finally {
@@ -68,6 +71,7 @@ export const useZones = () => {
   };
 
   return {
+    sortString,
     zones: data?.content || [],
     pagination: data,
     tipos,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper, type SortingState } from "@tanstack/react-table";
 import { useArtists } from "../../hooks/useArtists";
 import { AdminPageHeader } from "../../components/admin/AdminPageHeader";
 import { AdminTable } from "../../components/admin/AdminTable";
@@ -25,6 +25,7 @@ export const ArtistsPage = () => {
   const { artists, pagination, loading, error: apiError, getArtists, saveArtist, removeArtist } = useArtists();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [editingId, setEditingId] = useState<number | undefined>(undefined);
   const [editingFotoUrl, setEditingFotoUrl] = useState<string | undefined>(undefined);
   const [form, setForm] = useState<ArtistInputDTO>(emptyForm);
@@ -33,6 +34,18 @@ export const ArtistsPage = () => {
   const [fotoFile, setFotoFile] = useState<File | undefined>(undefined);
   const [fotoPreview, setFotoPreview] = useState<string | undefined>(undefined);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+
+  
+  const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+    const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    setSorting(newSorting);
+    if (newSorting.length > 0) {
+      const sortStr = `${newSorting[0].id},${newSorting[0].desc ? 'desc' : 'asc'}`;
+      getArtists(0, sortStr);
+    } else {
+      getArtists(0, undefined);
+    }
+  };
 
   useEffect(() => {
     getArtists(0);
@@ -223,6 +236,8 @@ export const ArtistsPage = () => {
         loading={loading}
         pagination={pagination}
         onPageChange={(page) => getArtists(page)}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
       />
 
       <AdminModal

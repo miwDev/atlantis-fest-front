@@ -5,12 +5,14 @@ import type { ShiftInputDTO } from "../types/input.dto";
 export const useShifts = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getShifts = async (page = 0, size = 20) => {
+  const getShifts = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await shiftService.getAll(page, size);
+      const res = await shiftService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar turnos");
@@ -27,7 +29,7 @@ export const useShifts = () => {
       } else {
         await shiftService.create(input);
       }
-      await getShifts(data?.number || 0);
+      await getShifts(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar turno");
       throw err;
@@ -40,7 +42,7 @@ export const useShifts = () => {
     setLoading(true);
     try {
       await shiftService.delete(id);
-      await getShifts(data?.number || 0);
+      await getShifts(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar turno");
     } finally {

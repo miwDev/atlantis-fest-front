@@ -3,9 +3,9 @@ import type { TicketTypeOutputDTO, TicketTypeSalesOutputDTO, PageDTO } from "../
 import type { TicketTypeInputDTO } from "../types/input.dto";
 
 export const ticketTypeService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<TicketTypeOutputDTO>>("/tipos-ticket", { params: { page, size } })
+      .get<PageDTO<TicketTypeOutputDTO>>("/tipos-ticket", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

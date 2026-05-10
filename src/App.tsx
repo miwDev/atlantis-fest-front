@@ -3,6 +3,7 @@ import { useAuthStore } from './store/authStore';
 import { Login } from './pages/public/Login';
 import { Landing } from './pages/public/Landing';
 import { MainLayout } from './components/layout/MainLayout';
+import { InteractiveMapPage } from './pages/public/InteractiveMapPage';
 
 import { ArtistsPage } from './pages/admin/ArtistsPage';
 import { ClientsPage } from './pages/admin/ClientsPage';
@@ -49,6 +50,7 @@ function App() {
         <Route element={<MainLayout />}>
           
           <Route path="/" element={<Landing />} />
+          <Route path="/mapa" element={<InteractiveMapPage />} />
           <Route path="/tickets" element={<PublicTicketsPage />} />
           <Route path="/checkout/:ticketTypeId" element={<CheckoutPage />} />
           <Route path="/purchase-success" element={<SuccessPage />} />
