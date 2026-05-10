@@ -20,6 +20,9 @@ import { SuccessPage } from './pages/public/SuccessPage';
 import { ClientPersonalPage } from './pages/public/ClientPersonalPage';
 import { ArtistAgendaPage } from './pages/public/ArtistAgendaPage';
 import { ArtistProfilePage } from './pages/public/ArtistProfilePage';
+import { StaffPersonalPage } from './pages/public/StaffPersonalPage';
+import { FoodtruckPersonalPage } from './pages/public/FoodtruckPersonalPage';
+
 
 
 
@@ -68,6 +71,14 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={['ARTIST']} />}>
             <Route path="/artista" element={<ArtistAgendaPage />} />
             <Route path="/artista/perfil" element={<ArtistProfilePage />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={['STAFF']} />}>
+            <Route path="/staff" element={<StaffPersonalPage />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={['FOODTRUCK']} />}>
+            <Route path="/foodtruck" element={<FoodtruckPersonalPage />} />
           </Route>
           
         </Route>
