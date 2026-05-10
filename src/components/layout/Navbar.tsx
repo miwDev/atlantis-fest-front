@@ -35,6 +35,10 @@ export const Navbar = () => {
     menuOptions = [
       { label: 'Área Operativa', path: '/staff' }
     ];
+  } else if (user?.role === 'FOODTRUCK') {
+    menuOptions = [
+      { label: 'Mi Foodtruck', path: '/foodtruck' }
+    ];
   } else {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
