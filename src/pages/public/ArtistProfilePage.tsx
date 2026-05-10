@@ -45,13 +45,14 @@ export const ArtistProfilePage = () => {
     try {
       const data = await artistService.getById(user.id);
       setArtist(data);
-      setFormData({
+      setFormData(prev => ({
+        ...prev,
         name: data.name || '',
         surname: data.surname || '',
         artistName: data.artistName || '',
         biography: data.biography || '',
         email: data.email || '',
-      });
+      }));
 
       // Fetch all available genres
       const allGenRes = await genreService.getAll(0, 100);
@@ -121,6 +122,14 @@ export const ArtistProfilePage = () => {
     if (!file || !artist) return;
     try {
       await artistService.uploadFoto(artist.id, file);
+      
+      // FIX: Al subir la foto, el backend parece perder los géneros (posible bug de Lazy Fetching).
+      // Re-guardamos el perfil inmediatamente con los datos actuales para forzar que se mantengan los géneros.
+      await artistService.update(artist.id, {
+        ...formData,
+        username: artist.username,
+      });
+      
       fetchProfile();
     } catch (err) {
       console.error("Error uploading photo", err);

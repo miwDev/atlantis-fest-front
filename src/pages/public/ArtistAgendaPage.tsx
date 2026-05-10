@@ -32,7 +32,7 @@ export const ArtistAgendaPage = () => {
 
   return (
     <div className="min-h-screen bg-atlantis-white text-atlantis-bg-main font-plex relative overflow-hidden pt-32 pb-24">
-      
+
       {/* Background Decor Resources - Adjusted for better readability */}
       <div className="absolute top-1/4 -right-32 md:-right-60 w-[21rem] md:w-[33.6rem] h-auto opacity-[0.08] pointer-events-none mix-blend-multiply z-0">
         <img src="/src/assets/ticket2.webp" alt="" className="w-full h-full object-cover grayscale" />
@@ -57,34 +57,9 @@ export const ArtistAgendaPage = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-          {/* Section 1: Map Placeholder */}
-          <div className="lg:col-span-7 order-2 lg:order-1">
-            <div className="flex flex-col gap-10">
-              <h2 className="font-syne font-bold text-2xl uppercase tracking-tighter border-b border-atlantis-bg-main pb-4">
-                MAPA_RECINTO
-              </h2>
-              <div className="aspect-video bg-atlantis-bg-main/[0.02] border border-atlantis-bg-main/5 flex flex-col items-center justify-center p-12 text-center relative group overflow-hidden">
-                {/* Blueprint Grid Decor */}
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-                  <div className="grid grid-cols-8 h-full w-full">
-                    {Array.from({ length: 32 }).map((_, i) => <div key={i} className="border-r border-b border-atlantis-bg-main" />)}
-                  </div>
-                </div>
-
-                <div className="w-24 h-24 border border-atlantis-bg-main/10 flex items-center justify-center mb-8 relative z-10">
-                  <span className="font-syne font-black text-3xl text-atlantis-bg-main/10 italic">MAP</span>
-                </div>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 mb-4 relative z-10">COORDENADAS EN PROCESO</p>
-                <p className="text-[10px] uppercase tracking-widest opacity-20 max-w-xs leading-relaxed relative z-10">
-                  ESTAMOS SINCRONIZANDO LOS ESCENARIOS CON LA ÚLTIMA VERSIÓN DEL PLANO DEL FESTIVAL.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Section 2: Concert List */}
-          <div className="lg:col-span-5 order-1 lg:order-2 space-y-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Concert List */}
+          <div className="space-y-12">
             <h2 className="font-syne font-bold text-2xl uppercase tracking-tighter border-b border-atlantis-bg-main pb-4">
               CONCIERTOS_HORARIOS
             </h2>
@@ -96,32 +71,39 @@ export const ArtistAgendaPage = () => {
             ) : concerts.length > 0 ? (
               <div className="divide-y divide-atlantis-bg-main/5">
                 {concerts.map(c => (
-                  <motion.div 
+                  <motion.div
                     key={c.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     whileHover={{ x: 5 }}
-                    className="py-10 group"
+                    className="py-10 group flex flex-col md:flex-row md:items-center justify-between gap-6"
                   >
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="flex items-center gap-4 text-atlantis-primary">
-                        <Clock size={18} />
-                        <span className="font-syne font-black text-xl italic">{c.horaInicio} — {c.horaFin}</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-6 md:mb-4">
+                        <div className="flex items-center gap-4 text-atlantis-primary">
+                          <Clock size={18} />
+                          <span className="font-syne font-black text-xl italic">{c.horaInicio} — {c.horaFin}</span>
+                        </div>
+                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-atlantis-bg-main/30 bg-atlantis-bg-main/5 px-2 py-0.5 md:hidden">{c.fecha}</span>
                       </div>
-                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-atlantis-bg-main/30 bg-atlantis-bg-main/5 px-2 py-0.5">{c.fecha}</span>
+                      <h3 className="font-syne font-black text-4xl md:text-5xl uppercase tracking-tighter leading-none mb-4 group-hover:text-atlantis-primary transition-colors">
+                        {c.artistName}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-[1px] bg-atlantis-primary" />
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">ESCENARIO: {c.zoneName}</p>
+                      </div>
                     </div>
-                    <h3 className="font-syne font-black text-3xl md:text-4xl uppercase tracking-tighter leading-none mb-4 group-hover:text-atlantis-primary transition-colors">
-                      {c.artistName}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                       <div className="w-4 h-[1px] bg-atlantis-primary" />
-                       <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">ESCENARIO: {c.zoneName}</p>
+                    
+                    <div className="hidden md:flex flex-col items-end justify-center text-right border-l border-atlantis-bg-main/10 pl-8">
+                       <span className="text-[10px] font-black uppercase tracking-[0.2em] text-atlantis-bg-main/40 mb-2">FECHA DEL EVENTO</span>
+                       <span className="font-syne font-black text-2xl text-atlantis-bg-main uppercase tracking-widest">{c.fecha}</span>
                     </div>
                   </motion.div>
                 ))}
               </div>
             ) : (
-              <div className="py-20 border border-dashed border-atlantis-bg-main/10 flex flex-col items-center">
+              <div className="py-32 border border-dashed border-atlantis-bg-main/10 flex flex-col items-center">
                 <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-20 italic">[ NO HAY ACTUACIONES ASIGNADAS ]</p>
               </div>
             )}
