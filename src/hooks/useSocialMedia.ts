@@ -5,12 +5,14 @@ import type { SocialMediaInputDTO } from "../types/input.dto";
 export const useSocialMedia = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getSocialMedia = async (page = 0, size = 20) => {
+  const getSocialMedia = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await socialMediaService.getAll(page, size);
+      const res = await socialMediaService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar redes sociales");
@@ -27,7 +29,7 @@ export const useSocialMedia = () => {
       } else {
         await socialMediaService.create(input);
       }
-      await getSocialMedia(data?.number || 0);
+      await getSocialMedia(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar red social");
       throw err;
@@ -40,7 +42,7 @@ export const useSocialMedia = () => {
     setLoading(true);
     try {
       await socialMediaService.delete(id);
-      await getSocialMedia(data?.number || 0);
+      await getSocialMedia(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar red social");
     } finally {

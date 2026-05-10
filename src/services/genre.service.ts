@@ -3,9 +3,9 @@ import type { GenreOutputDTO, PageDTO } from "../types/output.dto";
 import type { GenreInputDTO } from "../types/input.dto";
 
 export const genreService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<GenreOutputDTO>>("/generos", { params: { page, size } })
+      .get<PageDTO<GenreOutputDTO>>("/generos", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

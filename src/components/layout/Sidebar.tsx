@@ -17,7 +17,6 @@ export const Sidebar = () => {
     { label: 'FoodTrucks', path: '/admin/foodtruck' },
     { label: 'Zonas', path: '/admin/zonas' },
     { label: 'Tickets', path: '/admin/tickets' },
-    { label: 'Mapa', path: '/admin/mapa' },
     { label: 'Conciertos', path: '/admin/conciertos' },
   ];
 

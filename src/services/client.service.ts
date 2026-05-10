@@ -3,8 +3,8 @@ import type { ClientInputDTO } from "../types/input.dto";
 import type { ClientOutputDTO, PageDTO } from "../types/output.dto";
 
 export const clientService = {
-  getAll: async (page = 0, size = 20) => {
-    const { data } = await api.get<PageDTO<ClientOutputDTO>>(`/clientes?page=${page}&size=${size}`);
+  getAll: async (page = 0, size = 5, sort?: string) => {
+    const { data } = await api.get<PageDTO<ClientOutputDTO>>(`/clientes?page=${page}&size=${size}${sort ? '&sort=' + sort : ''}`);
     return data;
   },
 
