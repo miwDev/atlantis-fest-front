@@ -125,6 +125,7 @@ export const InteractiveMapPage = () => {
             {mapZones.map((zone) => {
               const isFoodtruck = zone.type === 'FOODTRUCK';
               const activeFoodtruck = isFoodtruck ? getFoodtruckForZone(zone.id) : null;
+              const isClosed = isFoodtruck && activeFoodtruck && !activeFoodtruck.estaAbierto;
               
               // If it's a foodtruck zone but no foodtruck is assigned, make it unclickable/less visible
               const isActive = !isFoodtruck || !!activeFoodtruck;
@@ -137,8 +138,8 @@ export const InteractiveMapPage = () => {
                     transition-all duration-300
                     ${isActive ? 'cursor-pointer' : 'cursor-default'}
                     ${hoveredZone?.id === zone.id && isActive
-                      ? 'fill-atlantis-primary/40 stroke-atlantis-primary stroke-[10px]' 
-                      : 'fill-transparent stroke-transparent hover:fill-atlantis-primary/20'}
+                      ? (isClosed ? 'fill-atlantis-error/40 stroke-atlantis-error stroke-[10px]' : 'fill-atlantis-primary/40 stroke-atlantis-primary stroke-[10px]')
+                      : 'fill-transparent stroke-transparent ' + (isClosed ? 'hover:fill-atlantis-error/20' : 'hover:fill-atlantis-primary/20')}
                   `}
                   onMouseEnter={() => isActive && setHoveredZone(zone)}
                   onMouseLeave={() => isActive && setHoveredZone(null)}
@@ -165,7 +166,11 @@ export const InteractiveMapPage = () => {
                   {hoveredZone.type}
                 </div>
                 {hoveredZone.type === 'FOODTRUCK' 
-                  ? getFoodtruckForZone(hoveredZone.id)?.nombre || hoveredZone.name
+                  ? (() => {
+                      const ft = getFoodtruckForZone(hoveredZone.id);
+                      if (!ft) return hoveredZone.name;
+                      return ft.estaAbierto ? ft.nombre : `${ft.nombre} (CERRADO)`;
+                    })()
                   : hoveredZone.name}
                 
                 {hoveredZone.type === 'ESCENARIO' && (
@@ -294,6 +299,12 @@ export const InteractiveMapPage = () => {
               <h3 className="font-syne font-black text-3xl text-atlantis-bg-main uppercase tracking-widest mb-2">
                 {selectedFoodtruck.nombre}
               </h3>
+
+              {!selectedFoodtruck.estaAbierto && (
+                <div className="bg-atlantis-error text-atlantis-white font-plex text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1 mb-4 inline-block">
+                  CERRADO ACTUALMENTE
+                </div>
+              )}
 
               <div className="text-atlantis-secondary font-plex text-sm uppercase tracking-widest mb-8">
                 {selectedFoodtruck.tipoComida}

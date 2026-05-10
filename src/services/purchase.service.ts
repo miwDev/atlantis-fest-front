@@ -3,9 +3,9 @@ import type { PurchaseOutputDTO, PageDTO } from "../types/output.dto";
 import type { PurchaseInputDTO } from "../types/input.dto";
 
 export const purchaseService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<PurchaseOutputDTO>>("/compras", { params: { page, size } })
+      .get<PageDTO<PurchaseOutputDTO>>("/compras", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

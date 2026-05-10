@@ -7,12 +7,14 @@ export const useStaff = () => {
   const [staffList, setStaffList] = useState<StaffOutputDTO[]>([]);
   const [pagination, setPagination] = useState<PageDTO<StaffOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getStaff = async (page = 0) => {
+  const getStaff = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const data = await staffService.getAll(page);
+      const data = await staffService.getAll(page, 5, sort);
       setStaffList(data.content);
       setPagination(data);
     } catch (err) {
@@ -30,7 +32,7 @@ export const useStaff = () => {
       } else {
         await staffService.create(input);
       }
-      await getStaff(pagination?.number || 0);
+      await getStaff(pagination?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar el staff");
       throw err;
@@ -43,7 +45,7 @@ export const useStaff = () => {
     setLoading(true);
     try {
       await staffService.delete(id);
-      await getStaff(pagination?.number || 0);
+      await getStaff(pagination?.number || 0, sortString);
     } catch (err) {
       setError("Error al eliminar el staff");
     } finally {

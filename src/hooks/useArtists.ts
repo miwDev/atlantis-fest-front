@@ -5,12 +5,14 @@ import type { ArtistInputDTO } from "../types/input.dto";
 export const useArtists = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getArtists = async (page = 0, size = 20) => {
+  const getArtists = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await artistService.getAll(page, size);
+      const res = await artistService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar artistas");
@@ -38,7 +40,7 @@ export const useArtists = () => {
         await artistService.uploadFoto(artistId, foto);
       }
 
-      await getArtists(data?.number || 0);
+      await getArtists(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar artista");
       throw err;
@@ -51,7 +53,7 @@ export const useArtists = () => {
     setLoading(true);
     try {
       await artistService.delete(id);
-      await getArtists(data?.number || 0);
+      await getArtists(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar artista");
     } finally {

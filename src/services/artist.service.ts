@@ -7,9 +7,9 @@ import type {
 import type { ArtistInputDTO } from "../types/input.dto";
 
 export const artistService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<ArtistOutputDTO>>("/artistas", { params: { page, size } })
+      .get<PageDTO<ArtistOutputDTO>>("/artistas", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

@@ -3,9 +3,9 @@ import type { InvoiceOutputDTO, PageDTO } from "../types/output.dto";
 import type { InvoiceInputDTO } from "../types/input.dto";
 
 export const invoiceService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<InvoiceOutputDTO>>("/facturas", { params: { page, size } })
+      .get<PageDTO<InvoiceOutputDTO>>("/facturas", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

@@ -3,9 +3,9 @@ import type { ReviewOutputDTO, PageDTO } from "../types/output.dto";
 import type { ReviewInputDTO } from "../types/input.dto";
 
 export const reviewService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<ReviewOutputDTO>>("/resenas", { params: { page, size } })
+      .get<PageDTO<ReviewOutputDTO>>("/resenas", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

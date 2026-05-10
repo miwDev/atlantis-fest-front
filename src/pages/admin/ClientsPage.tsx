@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper, type SortingState } from "@tanstack/react-table";
 import { useClients } from "../../hooks/useClients";
 import { AdminPageHeader } from "../../components/admin/AdminPageHeader";
 import { AdminTable } from "../../components/admin/AdminTable";
@@ -24,11 +24,24 @@ export const ClientsPage = () => {
   const { clients, pagination, loading, error: apiError, getClients, saveClient, removeClient } = useClients();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [editingId, setEditingId] = useState<number | undefined>(undefined);
   const [form, setForm] = useState<ClientInputDTO>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ClientInputDTO, string>>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof ClientInputDTO, boolean>>>({});
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+
+  
+  const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+    const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    setSorting(newSorting);
+    if (newSorting.length > 0) {
+      const sortStr = `${newSorting[0].id},${newSorting[0].desc ? 'desc' : 'asc'}`;
+      getClients(0, sortStr);
+    } else {
+      getClients(0, undefined);
+    }
+  };
 
   useEffect(() => {
     getClients(0);
@@ -184,6 +197,8 @@ export const ClientsPage = () => {
         loading={loading}
         pagination={pagination}
         onPageChange={(page) => getClients(page)}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
       />
 
       <AdminModal

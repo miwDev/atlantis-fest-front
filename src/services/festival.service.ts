@@ -3,9 +3,9 @@ import type { FestivalOutputDTO, PageDTO } from "../types/output.dto";
 import type { FestivalInputDTO } from "../types/input.dto";
 
 export const festivalService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<FestivalOutputDTO>>("/festivales", { params: { page, size } })
+      .get<PageDTO<FestivalOutputDTO>>("/festivales", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

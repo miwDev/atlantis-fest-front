@@ -3,9 +3,9 @@ import type { ShiftOutputDTO, PageDTO } from "../types/output.dto";
 import type { ShiftInputDTO } from "../types/input.dto";
 
 export const shiftService = {
-  getAll: (page = 0, size = 20) =>
+  getAll: (page = 0, size = 5, sort?: string) =>
     api
-      .get<PageDTO<ShiftOutputDTO>>("/turnos", { params: { page, size } })
+      .get<PageDTO<ShiftOutputDTO>>("/turnos", { params: { page, size, ...(sort && { sort }) } })
       .then((res) => res.data),
 
   getById: (id: string | number) =>

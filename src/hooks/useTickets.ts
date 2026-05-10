@@ -6,12 +6,14 @@ import type { TicketTypeOutputDTO, PageDTO } from "../types/output.dto";
 export const useTickets = () => {
   const [data, setData] = useState<PageDTO<TicketTypeOutputDTO> | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sortString, setSortString] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
-  const getTickets = async (page = 0, size = 20) => {
+  const getTickets = async (page: number = 0, sort: string | undefined = sortString) => {
+    if (sort !== sortString) setSortString(sort);
     setLoading(true);
     try {
-      const res = await ticketTypeService.getAll(page, size);
+      const res = await ticketTypeService.getAll(page, 5, sort);
       setData(res);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al cargar tickets");
@@ -28,7 +30,7 @@ export const useTickets = () => {
       } else {
         await ticketTypeService.create(input);
       }
-      await getTickets(data?.number || 0);
+      await getTickets(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al guardar ticket");
       throw err;
@@ -41,7 +43,7 @@ export const useTickets = () => {
     setLoading(true);
     try {
       await ticketTypeService.delete(id);
-      await getTickets(data?.number || 0);
+      await getTickets(data?.number || 0, sortString);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al borrar ticket");
     } finally {
