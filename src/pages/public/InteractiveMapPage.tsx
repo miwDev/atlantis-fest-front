@@ -15,22 +15,22 @@ interface ZoneDef {
 }
 
 const mapZones: ZoneDef[] = [
-  { id: 'escenario1', name: "Escenario Principal 'Poseidón'", type: 'ESCENARIO', coords: "569,647,553,1596,1007,1596,1002,647" },
-  { id: 'VIP1', name: "Zona VIP 'Tritón'", type: 'VIP', coords: "193,902,198,1351,407,1361,386,897" },
-  { id: 'banios1', name: "Baños Sector Oeste", type: 'BAÑOS', coords: "1216,177,1205,381,2395,360,2374,177" },
-  { id: 'entrance', name: "Entrada Principal y Taquillas", type: 'ENTRADA', coords: "2969,1867,3083,1857,3078,2315,3433,2347,3428,2540,2619,2545,2598,2347,2979,2326" },
-  { id: 'concert2', name: "Escenario Secundario 'Anfitrite'", type: 'ESCENARIO', coords: "5301,448,5306,1486,5682,1481,5666,469" },
-  { id: 'VIP2', name: "Zona VIP 'Sirena'", type: 'VIP', coords: "5296,1596,5290,1768,5697,1768,5676,1591" },
-  { id: 'banios2', name: "Baños Sector Este", type: 'BAÑOS', coords: "4101,1862,4101,2055,4852,2065,4852,1857" },
-  { id: 'engagementArea', name: "Zona de Descanso y Actividades", type: 'GENERAL', coords: "1195,548,1200,1679,2483,1684,2483,1544,2963,1549,2969,1778,3120,1773,3099,1580,5196,1611,5139,448,3678,454,3673,730,2504,751,2499,527" },
-  { id: 'foodtruck1', name: "Foodtruck 1", type: 'FOODTRUCK', coords: "1195,1830,1205,2008,1748,1997,1737,1836" },
-  { id: 'foodtruck2', name: "Foodtruck 2", type: 'FOODTRUCK', coords: "1894,1846,1904,1987,2452,1997,2457,1836" },
-  { id: 'foodtruck3', name: "Foodtruck 3", type: 'FOODTRUCK', coords: "2541,1617,2551,1768,2849,1778,2838,1627" },
-  { id: 'foodtruck4', name: "Foodtruck 4", type: 'FOODTRUCK', coords: "3209,1638,3209,1763,3590,1757,3584,1627" },
-  { id: 'foodtruck5', name: "Foodtruck 5", type: 'FOODTRUCK', coords: "2556,501,2546,657,2932,647,2932,501" },
-  { id: 'foodtruck6', name: "Foodtruck 6", type: 'FOODTRUCK', coords: "3115,516,3094,652,3475,657,3475,511" },
-  { id: 'foodtruck7', name: "Foodtruck 7", type: 'FOODTRUCK', coords: "3600,141,3590,302,4315,302,4304,151" },
-  { id: 'foodtruck8', name: "Foodtruck 8", type: 'FOODTRUCK', coords: "4476,151,4476,313,5181,292,5176,136" }
+  { id: 'escenario-poseidon', name: "Escenario Poseidón", type: 'ESCENARIO', coords: "569,647,553,1596,1007,1596,1002,647" },
+  { id: 'vip-triton', name: "Zona VIP Tritón", type: 'VIP', coords: "193,902,198,1351,407,1361,386,897" },
+  { id: 'banos-oeste', name: "Baños Sector Oeste", type: 'BAÑOS', coords: "1216,177,1205,381,2395,360,2374,177" },
+  { id: 'entrada-principal', name: "Entrada Principal", type: 'ENTRADA', coords: "2969,1867,3083,1857,3078,2315,3433,2347,3428,2540,2619,2545,2598,2347,2979,2326" },
+  { id: 'escenario-anfitrite', name: "Escenario Anfitrite", type: 'ESCENARIO', coords: "5301,448,5306,1486,5682,1481,5666,469" },
+  { id: 'vip-sirena', name: "Zona VIP Sirena", type: 'VIP', coords: "5296,1596,5290,1768,5697,1768,5676,1591" },
+  { id: 'banos-este', name: "Baños Sector Este", type: 'BAÑOS', coords: "4101,1862,4101,2055,4852,2065,4852,1857" },
+  { id: 'area-descanso', name: "Área de Descanso", type: 'GENERAL', coords: "1195,548,1200,1679,2483,1684,2483,1544,2963,1549,2969,1778,3120,1773,3099,1580,5196,1611,5139,448,3678,454,3673,730,2504,751,2499,527" },
+  { id: 'foodtruck-nereo-1', name: "Foodtruck 1", type: 'FOODTRUCK', coords: "1195,1830,1205,2008,1748,1997,1737,1836" },
+  { id: 'foodtruck-nereo-2', name: "Foodtruck 2", type: 'FOODTRUCK', coords: "1894,1846,1904,1987,2452,1997,2457,1836" },
+  { id: 'foodtruck-proteo-1', name: "Foodtruck 3", type: 'FOODTRUCK', coords: "2541,1617,2551,1768,2849,1778,2838,1627" },
+  { id: 'foodtruck-proteo-2', name: "Foodtruck 4", type: 'FOODTRUCK', coords: "3209,1638,3209,1763,3590,1757,3584,1627" },
+  { id: 'foodtruck-glauco-1', name: "Foodtruck 5", type: 'FOODTRUCK', coords: "2556,501,2546,657,2932,647,2932,501" },
+  { id: 'foodtruck-glauco-2', name: "Foodtruck 6", type: 'FOODTRUCK', coords: "3115,516,3094,652,3475,657,3475,511" },
+  { id: 'foodtruck-oceano-1', name: "Foodtruck 7", type: 'FOODTRUCK', coords: "3600,141,3590,302,4315,302,4304,151" },
+  { id: 'foodtruck-oceano-2', name: "Foodtruck 8", type: 'FOODTRUCK', coords: "4476,151,4476,313,5181,292,5176,136" }
 ];
 
 export const InteractiveMapPage = () => {
@@ -52,24 +52,24 @@ export const InteractiveMapPage = () => {
     setMousePos({ x: e.clientX, y: e.clientY });
   };
 
-  const getFoodtruckForZone = (zoneName: string) => {
-    return foodtrucks.find(ft => ft.zoneNombre === zoneName);
+  const getFoodtruckForZone = (zoneId: string) => {
+    return foodtrucks.find(ft => ft.zoneNombre === zoneId);
   };
 
   const handleZoneClick = (zone: ZoneDef) => {
     if (zone.type === 'ESCENARIO') {
       setSelectedStage(zone);
     } else if (zone.type === 'FOODTRUCK') {
-      const ft = getFoodtruckForZone(zone.name);
+      const ft = getFoodtruckForZone(zone.id);
       if (ft) {
         setSelectedFoodtruck(ft);
       }
     }
   };
 
-  const getConcertsForStage = (zoneName: string): ConcertOutputDTO[] => {
+  const getConcertsForStage = (zoneId: string): ConcertOutputDTO[] => {
     return rawConcerts
-      .filter((c) => c.zoneName === zoneName)
+      .filter((c) => c.zoneName === zoneId)
       .sort((a, b) => {
         if (a.fecha === b.fecha) {
           return a.horaInicio.localeCompare(b.horaInicio);
@@ -124,7 +124,7 @@ export const InteractiveMapPage = () => {
           >
             {mapZones.map((zone) => {
               const isFoodtruck = zone.type === 'FOODTRUCK';
-              const activeFoodtruck = isFoodtruck ? getFoodtruckForZone(zone.name) : null;
+              const activeFoodtruck = isFoodtruck ? getFoodtruckForZone(zone.id) : null;
               
               // If it's a foodtruck zone but no foodtruck is assigned, make it unclickable/less visible
               const isActive = !isFoodtruck || !!activeFoodtruck;
@@ -165,7 +165,7 @@ export const InteractiveMapPage = () => {
                   {hoveredZone.type}
                 </div>
                 {hoveredZone.type === 'FOODTRUCK' 
-                  ? getFoodtruckForZone(hoveredZone.name)?.nombre || hoveredZone.name
+                  ? getFoodtruckForZone(hoveredZone.id)?.nombre || hoveredZone.name
                   : hoveredZone.name}
                 
                 {hoveredZone.type === 'ESCENARIO' && (
@@ -173,7 +173,7 @@ export const InteractiveMapPage = () => {
                     Click para ver horarios
                   </div>
                 )}
-                {hoveredZone.type === 'FOODTRUCK' && getFoodtruckForZone(hoveredZone.name) && (
+                {hoveredZone.type === 'FOODTRUCK' && getFoodtruckForZone(hoveredZone.id) && (
                   <div className="text-[9px] mt-2 font-normal text-atlantis-white/60 lowercase italic">
                     Click para ver detalles
                   </div>
@@ -222,12 +222,12 @@ export const InteractiveMapPage = () => {
               </div>
 
               <div className="flex-grow flex flex-col gap-4">
-                {getConcertsForStage(selectedStage.name).length === 0 ? (
+                {getConcertsForStage(selectedStage.id).length === 0 ? (
                   <div className="text-center py-12 text-atlantis-white/50 font-plex text-sm uppercase tracking-widest">
                     No hay actuaciones programadas aún.
                   </div>
                 ) : (
-                  getConcertsForStage(selectedStage.name).map((concert) => (
+                  getConcertsForStage(selectedStage.id).map((concert) => (
                     <div 
                       key={concert.id}
                       className="flex flex-col md:flex-row md:items-center justify-between p-4 border border-atlantis-bg-alt/20 hover:border-atlantis-primary/40 bg-atlantis-white/5 transition-colors group"
