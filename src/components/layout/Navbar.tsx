@@ -17,7 +17,7 @@ export const Navbar = () => {
   if (!isAuthenticated) {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
-      { label: 'Lineup', path: '/' }, 
+      { label: 'Lineup', path: '/lineup' }, 
       { label: 'Recinto', path: '/mapa' }
     ];
   } else if (user?.role === 'ADMIN') {
@@ -42,7 +42,7 @@ export const Navbar = () => {
   } else {
     menuOptions = [
       { label: 'Tickets', path: '/tickets' },
-      { label: 'Lineup', path: '/' },
+      { label: 'Lineup', path: '/lineup' },
       { label: 'Recinto', path: '/mapa' }
     ];
   }
@@ -65,7 +65,8 @@ export const Navbar = () => {
           <img 
             src={isDarkBg ? logoOscuro : logoClaro} 
             alt="Atlantis Logo" 
-            className="h-16 w-16 md:h-20 md:w-20 object-contain transition-opacity duration-500"
+            onClick={() => navigate('/')}
+            className="h-16 w-16 md:h-20 md:w-20 object-contain transition-all duration-500 cursor-pointer hover:opacity-80"
           />
 
           {isAdmin && (
