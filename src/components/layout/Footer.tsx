@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import logoClaro from '../../assets/logo-light.svg';
+import logoOscuro from '../../assets/logo-dark.svg';
 
 export const Footer = () => {
   return (
@@ -8,10 +9,16 @@ export const Footer = () => {
         
         {/* IZQUIERDA: Logo e Info */}
         <div className="flex flex-col items-center md:items-start gap-4">
-          <img src={logoClaro} alt="Atlantis Logo" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
-          <p className="font-plex text-atlantis-white text-[10px] uppercase tracking-[0.3em] text-center md:text-left mt-2">
-            Atlantis_Protocol_v2.4<br/>System_Operational
-          </p>
+          <Link to="/">
+            <img src={logoClaro} alt="Atlantis Logo" className="h-16 w-16 md:h-20 md:w-20 object-contain hover:scale-105 transition-transform" />
+          </Link>
+          <Link to="/">
+            <img 
+              src={logoOscuro} 
+              alt="Atlantis Protocol Dark" 
+              className="h-12 w-12 md:h-16 md:w-16 object-contain mt-2 hover:opacity-80 transition-opacity"
+            />
+          </Link>
         </div>
         
         {/* CENTRO/DERECHA: Enlaces */}
