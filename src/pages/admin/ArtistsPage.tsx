@@ -64,7 +64,6 @@ export const ArtistsPage = () => {
     if (!data.username) newErrors.username = "El nombre de usuario no puede estar vacío";
     else if (data.username.length > 50) newErrors.username = "Máximo 50 caracteres";
 
-    // Password obligatorio en creación, opcional en edición si no se quiere cambiar
     if (!editingId) {
       if (!data.password) newErrors.password = "La contraseña no puede estar vacía";
       else if (data.password.length < 8) newErrors.password = "Mínimo 8 caracteres";
@@ -128,7 +127,6 @@ export const ArtistsPage = () => {
   const handleSubmit = async () => {
     if (!isFormValid) return;
     
-    // Si estamos editando y el password está vacío, no lo enviamos
     const dataToSend = { ...form };
     if (editingId && !dataToSend.password) {
       delete dataToSend.password;

@@ -27,15 +27,12 @@ export const useArtists = () => {
       let artistId = id;
 
       if (id) {
-        // Editar: actualizar datos
         await artistService.update(id, input);
       } else {
-        // Crear: primero datos, obtenemos el ID del nuevo artista
         const created = await artistService.create(input);
         artistId = created.id;
       }
 
-      // Si hay foto, la subimos (flujo estándar: datos primero, foto después)
       if (foto && artistId) {
         await artistService.uploadFoto(artistId, foto);
       }

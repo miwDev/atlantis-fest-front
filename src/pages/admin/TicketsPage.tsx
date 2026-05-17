@@ -14,11 +14,11 @@ const emptyForm: TicketTypeInputDTO = {
   precioBase: 0,
   maxDisponible: 0,
   descripcion: "",
-  festivalId: 1 // Por defecto, asumimos 1 o requerirá un selector de festivales si hay múltiples
+  festivalId: 1
 };
 
 export const TicketsPage = () => {
-  const { tickets, pagination, loading, error: apiError, getTickets, saveTicket, removeTicket } = useTickets();
+  const { tickets, pagination, loading, error: apiError, getTickets, saveTicket } = useTickets();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -26,9 +26,7 @@ export const TicketsPage = () => {
   const [form, setForm] = useState<TicketTypeInputDTO>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof TicketTypeInputDTO, string>>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof TicketTypeInputDTO, boolean>>>({});
-  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
-  
   const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
     const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
     setSorting(newSorting);
@@ -67,7 +65,7 @@ export const TicketsPage = () => {
       precioBase: ticket.precioBase,
       maxDisponible: ticket.maxDisponible,
       descripcion: ticket.descripcion || "",
-      festivalId: 1 // Forzado temporalmente hasta implementar el selector de festivales globales
+      festivalId: 1
     });
     setModalOpen(true);
   };
@@ -78,11 +76,6 @@ export const TicketsPage = () => {
       await saveTicket(form, editingId);
       setModalOpen(false);
     } catch {}
-  };
-
-  const handleDelete = async (id: number) => {
-    await removeTicket(id);
-    setConfirmDeleteId(null);
   };
 
   const columns = [
@@ -112,7 +105,6 @@ export const TicketsPage = () => {
       cell: ({ row }) => (
         <div className="flex gap-3">
           <button onClick={() => openEdit(row.original)} className="font-plex text-[10px] font-black uppercase text-atlantis-primary hover:text-atlantis-bg-main transition-colors">Editar</button>
-          <button onClick={() => setConfirmDeleteId(row.original.id)} className="font-plex text-[10px] font-black uppercase text-atlantis-error hover:opacity-70 transition-opacity">Borrar</button>
         </div>
       ),
     }),
@@ -162,18 +154,6 @@ export const TicketsPage = () => {
             <button type="button" onClick={() => setModalOpen(false)} className="font-plex text-xs font-black uppercase tracking-[0.2em] border border-atlantis-secondary/30 px-6 text-atlantis-secondary hover:border-atlantis-bg-main hover:text-atlantis-bg-main transition-colors">Cancelar</button>
           </div>
         </form>
-      </AdminModal>
-
-      <AdminModal open={confirmDeleteId !== null} onClose={() => setConfirmDeleteId(null)} title="Confirmar Eliminación">
-        <div className="space-y-6">
-          <p className="font-plex text-xs text-atlantis-secondary uppercase tracking-widest">¿Estás seguro de que quieres eliminar este ticket? Esta acción no se puede deshacer y puede afectar a compras existentes.</p>
-          <div className="flex gap-3">
-            <button onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)} disabled={loading} className="flex-1 font-plex text-xs font-black uppercase tracking-[0.2em] bg-atlantis-error text-atlantis-white py-3 hover:opacity-80 transition-opacity disabled:opacity-50">
-              {loading ? "Eliminando..." : "Sí, Eliminar"}
-            </button>
-            <button onClick={() => setConfirmDeleteId(null)} className="font-plex text-xs font-black uppercase tracking-[0.2em] border border-atlantis-secondary/30 px-6 text-atlantis-secondary hover:border-atlantis-bg-main hover:text-atlantis-bg-main transition-colors">Cancelar</button>
-          </div>
-        </div>
       </AdminModal>
     </div>
   );
