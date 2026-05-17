@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useArtists } from "../useArtists";
 import { artistService } from "../../services/artist.service";
 
-// Mock del servicio
 vi.mock("../../services/artist.service", () => ({
   artistService: {
     getAll: vi.fn(),
@@ -29,15 +28,10 @@ describe("useArtists hook", () => {
 
     const { result } = renderHook(() => useArtists());
 
-    // Inicialmente cargando es falso hasta que llamemos a getArtists
     expect(result.current.loading).toBe(false);
 
-    // Ejecutamos getArtists
     result.current.getArtists();
 
-    // Verificamos que pase a estado cargando
-    // (Nota: renderHook se actualiza, pero a veces es muy rápido)
-    
     await waitFor(() => {
       expect(result.current.artists).toEqual(mockData.content);
       expect(result.current.loading).toBe(false);
