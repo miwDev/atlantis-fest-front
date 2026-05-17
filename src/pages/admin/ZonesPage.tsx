@@ -13,11 +13,11 @@ const emptyForm: ZoneInputDTO = {
   nombre: "",
   descripcion: "",
   tipo: "",
-  festivalId: 1 // TODO: idealmente un selector de festival si hay varios
+  festivalId: 1
 };
 
 export const ZonesPage = () => {
-  const { zones, pagination, tipos, loading, error: apiError, getZones, saveZone, removeZone } = useZones();
+  const { zones, pagination, tipos, loading, error: apiError, getZones, saveZone } = useZones();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -25,9 +25,7 @@ export const ZonesPage = () => {
   const [form, setForm] = useState<ZoneInputDTO>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ZoneInputDTO, string>>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof ZoneInputDTO, boolean>>>({});
-  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
-  
   const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
     const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
     setSorting(newSorting);
@@ -64,7 +62,7 @@ export const ZonesPage = () => {
       nombre: zone.nombre,
       descripcion: zone.descripcion || "",
       tipo: zone.tipo,
-      festivalId: 1 // Usamos 1 por defecto de momento, si el back devuelve festivalId en el DTO habría que usarlo
+      festivalId: 1
     });
     setModalOpen(true);
   };
@@ -75,11 +73,6 @@ export const ZonesPage = () => {
       await saveZone(form, editingId);
       setModalOpen(false);
     } catch {}
-  };
-
-  const handleDelete = async (id: number) => {
-    await removeZone(id);
-    setConfirmDeleteId(null);
   };
 
   const columns = [
@@ -105,7 +98,6 @@ export const ZonesPage = () => {
       cell: ({ row }) => (
         <div className="flex gap-3">
           <button onClick={() => openEdit(row.original)} className="font-plex text-[10px] font-black uppercase text-atlantis-primary hover:text-atlantis-bg-main transition-colors">Editar</button>
-          <button onClick={() => setConfirmDeleteId(row.original.id)} className="font-plex text-[10px] font-black uppercase text-atlantis-error hover:opacity-70 transition-opacity">Borrar</button>
         </div>
       ),
     }),
@@ -179,18 +171,6 @@ export const ZonesPage = () => {
             <button type="button" onClick={() => setModalOpen(false)} className="font-plex text-xs font-black uppercase tracking-[0.2em] border border-atlantis-secondary/30 px-6 text-atlantis-secondary hover:border-atlantis-bg-main hover:text-atlantis-bg-main transition-colors">Cancelar</button>
           </div>
         </form>
-      </AdminModal>
-
-      <AdminModal open={confirmDeleteId !== null} onClose={() => setConfirmDeleteId(null)} title="Confirmar Eliminación">
-        <div className="space-y-6">
-          <p className="font-plex text-xs text-atlantis-secondary uppercase tracking-widest">¿Estás seguro de que quieres eliminar esta zona? Esta acción no se puede deshacer.</p>
-          <div className="flex gap-3">
-            <button onClick={() => confirmDeleteId && handleDelete(confirmDeleteId)} disabled={loading} className="flex-1 font-plex text-xs font-black uppercase tracking-[0.2em] bg-atlantis-error text-atlantis-white py-3 hover:opacity-80 transition-opacity disabled:opacity-50">
-              {loading ? "Eliminando..." : "Sí, Eliminar"}
-            </button>
-            <button onClick={() => setConfirmDeleteId(null)} className="font-plex text-xs font-black uppercase tracking-[0.2em] border border-atlantis-secondary/30 px-6 text-atlantis-secondary hover:border-atlantis-bg-main hover:text-atlantis-bg-main transition-colors">Cancelar</button>
-          </div>
-        </div>
       </AdminModal>
     </div>
   );
